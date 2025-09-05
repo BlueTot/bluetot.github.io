@@ -1,55 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Grover Demo</title>
-  <style>
-    body {
-      background: black;
-      color: #00ff99;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      font-family: monospace;
-    }
-    #grover-output {
-      font-size: 5rem;
-      text-shadow: 0 0 10px #00ff99, 0 0 20px #00ff99;
-    }
-  </style>
-</head>
-<body>
-  <div id="grover-output"></div>
-
-  <script>
-    // All ASCII chars from 0–127
-    const asciiChars = Array.from({length: 128}, (_, i) => String.fromCharCode(i));
-
-    // One iteration: 'A' has higher probability
-    const targetIndex = 65; // ASCII 'A'
-    const highProb = 0.7;
-    const lowProb = (1 - highProb) / (asciiChars.length - 1);
-
-    const probs = asciiChars.map((_, i) => i === targetIndex ? highProb : lowProb);
-
-    // Weighted random selection
-    function weightedRandom(probs) {
-      const r = Math.random();
-      let acc = 0;
-      for (let i = 0; i < probs.length; i++) {
-        acc += probs[i];
-        if (r <= acc) return asciiChars[i];
-      }
-      return asciiChars[asciiChars.length - 1];
-    }
-
-    // Flicker effect
-    const output = document.getElementById("grover-output");
-    setInterval(() => {
-      output.textContent = weightedRandom(probs);
-    }, 20); // 50ms per flicker
-  </script>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <title>My Website</title>
+        <link rel="stylesheet" href="./style.css"
+    </head>
+    <body>
+        <div id="title"></div>
+        <script src="./script.js"></script>
+    </body>
 </html>
 

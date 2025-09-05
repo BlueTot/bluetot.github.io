@@ -1,0 +1,14 @@
+body {
+    background: black;
+    color: #00ff99;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: monospace;
+}
+
+#title {
+    font-size: 5rem;
+    text-shadow: 0 0 10px #00ff99, 0 0 20px #00ff99;
+}
