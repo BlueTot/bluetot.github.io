@@ -67,14 +67,6 @@ so moving toward the button stays inside the hover area */
     pointer-events: auto;
 }
 
-#about {
-    padding: 4rem;
-    background: #f4f4f4;
-    color: #333;
-    font-size: 4rem;
-    text-align: center;
-}
-
 /* Social icons */
 #social-icons {
     margin-top: 1.5rem;
@@ -117,3 +109,107 @@ nav a {
 nav a:hover {
     text-decoration: underline;
 }
+
+.divider {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, #00ffff, #ff00ff, #39ff14, #9d4edd);
+  box-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
+  margin: 0;
+}
+
+#bio-box {
+    display: flex;
+    width: 80%;
+    padding-top: 3%;
+}
+
+#pfp {
+    width: 30%;
+    height: 30%;
+    border-radius: 50%;
+    margin-top: 1%;
+}
+
+#bio {
+    font-size: 1.3rem;
+    padding-left: 5%;
+    color: #ffffff;
+    width: 100%;
+}
+
+#name {
+    color: #ff00ff;
+}
+
+#about {
+    padding: 4rem 2rem;
+    background: black;
+    color: #1e90ff;
+    font-size: 1.5rem;
+    /* text-align: center; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Headline glow */
+#about h2 {
+    font-size: 3rem;
+    text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+    margin-bottom: 1.5rem;
+    display: flex;
+    color: #00ffff;
+}
+
+/* Timeline container */
+.timeline {
+    margin: 3rem auto 0 auto;
+    position: relative;
+    max-width: 600px;
+    border-left: 2px solid #1e90ff;
+    padding-left: 2rem;
+}
+
+/* Each item */
+.timeline-item {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+/* Dot for each event */
+.timeline-dot {
+    position: absolute;
+    left: -1.1rem;
+    top: 0.4rem;
+    width: 1rem;
+    height: 1rem;
+    background: #1e90ff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #1e90ff, 0 0 20px #1e90ff;
+}
+
+/* Event box */
+.timeline-content {
+    background: rgba(30, 144, 255, 0.1); /* subtle glowing panel */
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #1e90ff;
+    text-align: left;
+    box-shadow: 0 0 10px rgba(30,144,255,0.6);
+    transition: transform 0.2s;
+}
+
+.timeline-content:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 15px #1e90ff, 0 0 30px #1e90ff;
+}
+
+/* Year label */
+.timeline-content h3 {
+    margin-top: 0;
+    color: #00bfff;
+    text-shadow: 0 0 8px #00bfff;
+}
+
