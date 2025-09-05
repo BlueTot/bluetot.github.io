@@ -1,55 +1,476 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Grover Demo</title>
-  <style>
-    body {
-      background: black;
-      color: #00ff99;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      font-family: monospace;
-    }
-    #grover-output {
-      font-size: 5rem;
-      text-shadow: 0 0 10px #00ff99, 0 0 20px #00ff99;
-    }
-  </style>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nok Hang Lo</title>
+
+    <link rel="icon" href="./assets/bluetot_icon.JPG" type="image/jpeg" />
+    <link rel="shortcut icon" href="./assets/bluetot_icon.JPG" type="image/jpeg" />
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="./style.css">
 </head>
+
 <body>
-  <div id="grover-output"></div>
+    <!-- Fixed overlay year+line (hidden until timeline is active) -->
+    <div class="sidebar" id="sidebar" aria-hidden="true">
+        <div id="yearDisplay" class="year"></div>
+    </div>
 
-  <script>
-    // All ASCII chars from 0–127
-    const asciiChars = Array.from({length: 128}, (_, i) => String.fromCharCode(i));
+    <nav>
+        <ul>
+            <li><a href="/" aria-current="page">Home</a></li>
+            <li><a href="/experience">Experience</a></li>
+            <li><a href="/projects">Projects</a></li>
+            <li><a href="https://bluetot.github.io/notes">Notes</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </nav>
 
-    // One iteration: 'A' has higher probability
-    const targetIndex = 65; // ASCII 'A'
-    const highProb = 0.7;
-    const lowProb = (1 - highProb) / (asciiChars.length - 1);
+    <!-- TITLE PAGE (yours) -->
+    <section id="title-box">
+        <div id="title-container">
+            <button id="title"></button>
+            <a id="info-button" href="/special"><i class="fas fa-info-circle"></i></a>
+        </div>
+    </section>
 
-    const probs = asciiChars.map((_, i) => i === targetIndex ? highProb : lowProb);
+    <!-- Gap so timeline doesn't appear while hero is still visible -->
+    <div class="after-hero-gap" aria-hidden="true"></div>
 
-    // Weighted random selection
-    function weightedRandom(probs) {
-      const r = Math.random();
-      let acc = 0;
-      for (let i = 0; i < probs.length; i++) {
-        acc += probs[i];
-        if (r <= acc) return asciiChars[i];
-      }
-      return asciiChars[asciiChars.length - 1];
-    }
+    <!-- TIMELINE -->
+    <main class="wrap">
+        <section class="timeline grid" id="timelineSection">
+            <div class="spacer"></div>
 
-    // Flicker effect
-    const output = document.getElementById("grover-output");
-    setInterval(() => {
-      output.textContent = weightedRandom(probs);
-    }, 20); // 50ms per flicker
-  </script>
+            <div>
+                <!-- <div class="timeline-start" aria-hidden="true"></div> -->
+
+                <div class="entries">
+
+                    <!-- ABOUT ME (before 2006) -->
+                    <section class="entry" data-year="About">
+                        <article class="card">
+                            <h1>Hey, I'm Nok Hang</h1>
+                            <div class="meta">
+                                <span class="tag blue">Age: 19</span>
+                                <span class="tag green">Location: Cambridge, UK</span>
+                                <span class="tag yellow">University of Warwick</span>
+                                <span class="tag violet">Computer Science (Year 2)</span>
+                            </div>
+                            <br />
+                            <p>
+                                I'm an aspiring software engineer / competitive programmer / LeetCode warrior.
+                                Incoming SWE Intern @ <b>Balyasny Asset Management</b> and <b>GE Vernova</b>.
+                                I'm interested in <b>low-level programming</b>, <b>high-performance computing</b>, and
+                                <b>competitive programming</b></span>.
+                                Passionate about using the terminal and free &amp; open source software.
+                            </p>
+                            <br />
+                            <p>
+                                Outside my career, I love solo travelling, (occassionally) video editing,
+                                a bit of minecraft, photography, monkeytype, and of course I'm a coffee addict.
+                            </p>
+                            <br />
+                            <p>
+                                <span class="redtext"><b>ONE LAST NOTE</b></span> ... if you need help with revision for uni exams, 
+                                I have notes for most Year 1 modules and some Year 2 modules 
+                                - click on the <b><u>Notes</u></b> button in the navbar.
+                            </p>
+
+                        </article>
+                    </section>
+
+
+                    <!-- LEETCODE (within About section, separate card) -->
+                    <section class="entry" data-year="About">
+                        <article class="card">
+                            <h1>LeetCode is a journey</h1>
+                            <p class="muted">
+                                I believe everything is a journey, including LeetCode.
+                                My goal is to complete 1000 problems before I graduate. So far, I've completed
+                                <span class="bluetext"><b>400+</b></span> and I'm not stopping.
+                            </p>
+                            <br />
+                            <img alt="leetcode"
+                                src="https://leetcard.jacoblin.cool/bluetotkc?theme=dark&font=Rajdhani" />
+                            <div class="meta">
+                                <span id="leetcode-date" class="date"></span>
+                            </div>
+                        </article>
+                    </section>
+
+                    <!-- 2006 -->
+                    <section class="entry" data-year="2006">
+                        <article class="card compact tight">
+                            <h1>Home</h1>
+                            <div class="meta">
+                                <span class="tag yellow">Personal Life</span>
+                                <span class="date">12/2006</span>
+                            </div>
+                            <div class="media-row">
+                                <img class="media square" src="./assets/picture0.jpeg" alt="2006" loading="lazy" />
+                                <div class="copy">
+                                    <p>
+                                        Contrary to what some might believe, I did not grow up in the UK. My life
+                                        started in <b>Hong Kong</b>.
+                                        <span class="violettext"><b>Fun fact: </b></span>I speak English, Mandarin, and
+                                        Cantonese.
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+
+                    <!-- Ghost years generated by JS: 2007..2021 (no boxes) -->
+                    <div id="fastYears" class="ghost-years"></div>
+
+                    <!-- 2022..2026 -->
+                    <section class="entry" data-year="2021">
+                        <article class="card compact tight">
+                            <h1>Hello, World</h1>
+                            <div class="meta">
+                                <span class="tag green">First Project</span>
+                                <span class="date">01/2021</span>
+                            </div>
+                            <div class="media-row">
+                                <img class="media square" src="./assets/picture1.png" alt="2021" loading="lazy" />
+                                <div class="copy">
+                                    <p>
+                                        Started programming at age 14 in Python. First project was a <span
+                                            class="bluetext"><b>2D minecraft clone</b></span>
+                                        made using pygame which was 4000 lines in one file (yikes).
+                                        Around July 2021, I decided to pursue computer science at university.
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+
+                    <section class="entry" data-year="2022">
+                        <article class="card compact tight">
+                            <h1>a new start</h1>
+                            <div class="meta">
+                                <span class="tag green">Personal Life</span>
+                                <span class="date">06/2022</span>
+                            </div>
+                            <div class="media-row">
+                                <img class="media square" src="./assets/picture8.jpeg" alt="2022" loading="lazy" />
+                                <div class="copy">
+                                    <p>
+                                        I lived in Hong Kong for 15 years before moving to <span
+                                            class="bluetext"><b>Cambridge, UK</b></span> in the summer
+                                        of 2022 to start A-Levels.
+                                    </p>
+                                    <br />
+                                    <p>
+                                        That's a picture from the day I left Hong Kong.
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+
+                    <section class="entry" data-year="2022">
+                        <article class="card compact tight">
+                            <h1>typing; coding</h1>
+                            <div class="meta">
+                                <span class="tag green">Hobby</span>
+                                <span class="tag blue">Projects</span>
+                                <span class="date">12/2022</span>
+                            </div>
+                            <div class="media-row">
+                                <img class="media square" src="./assets/picture7.png" alt="2022" loading="lazy" />
+                                <div class="copy">
+                                    <p>
+                                        One of my hobbies is typing ?! First started doing nitrotype in class in
+                                        secondary school,
+                                        then started doing monkeytype in the library at my sixth form. At my peak I
+                                        could do <span class="bluetext"><b>147wpm</b></span>
+                                        in 60s (<a href="https://monkeyspy.entertrained.app/#BlueTot">my stats</a>).
+                                    </p>
+                                    <br />
+                                    <p>
+                                        Aside from procrastinating on my work, I also played an online game called drift
+                                        boss on <i>mathplayground.com</i>, and I decided
+                                        to make a similar game in pygame called
+                                        <a href="https://github.com/BlueTot/drift-boss-2d"><b>Drift Boss 2D</b></a> as a
+                                        side project.
+                                    </p>
+
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+
+                    <section class="entry" data-year="2023">
+                        <article class="card compact tight">
+                            <h1>getting banned ?!</h1>
+                            <div class="meta">
+                                <span class="tag green">Algorithms</span>
+                                <span class="tag blue">AI</span>
+                                <span class="tag orange">Chess Programming</span>
+                                <span class="date">04/2023</span>
+                            </div>
+                            <div class="media-row">
+                                <img class="media square" src="./assets/picture3.jpeg" alt="2023" loading="lazy" />
+                                <div class="copy">
+                                    <p>
+                                        I started playing chess, but I wasn't good so I thought I try making a
+                                        <b>python chess engine</b> to play better than me.
+                                        After a year's worth of development, the engine reached a rating of <span
+                                            class="bluetext"><b>2000+</b></span>
+                                        on chess.com after many optimisations I learnt off the <i>Chess Programming
+                                            Wiki</i>.
+                                    </p>
+                                    <br />
+                                    <p>
+                                        This was also my first experience with optimising code and time complexity
+                                        analysis.
+                                    </p>
+                                    <br />
+                                    <p>
+                                        p.s. i got banned from chess.com multiple times during testing
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+
+                    <section class="entry" data-year="2023">
+                        <article class="card compact tight">
+                            <h1>the journey begins</h1>
+                            <div class="meta">
+                                <span class="tag blue">Competitive Programming</span>
+                                <span class="date">07/2023</span>
+                            </div>
+                            <div class="media-row">
+                                <img class="media square" src="./assets/picture9.png" alt="2023" loading="lazy" />
+                                <div class="copy">
+                                    <p>
+                                        After entering the world of <b>competitive programming</b> via Advent of Code
+                                        2022,
+                                        I started solving problems on <b>Project Euler</b>
+                                        where I completed 100 problems in just 6 weeks by July 2023. I am currently top
+                                        <span class="bluetext"><b>0.766%</b></span> on the platform.
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+
+
+                    <section class="entry" data-year="2024">
+                        <article class="card compact tight">
+                            <h1>we need to go deeper</h1>
+                            <div class="meta">
+                                <span class="tag blue">Compilers</span>
+                                <span class="tag yellow">Verilog</span>
+                                <span class="tag green">Quantum Computing</span>
+                                <span class="date">02/2024</span>
+                            </div>
+                            <div class="media-row">
+                                <img class="media square" src="./assets/picture4.png" alt="2024" loading="lazy" />
+                                <div class="copy">
+                                    <p>
+                                        One of my interests is learning about how systems work at the low-level.
+                                        After building a Verilog RTL microprocessor at a society in Year 12, I designed
+                                        a simple programming language for the microprocessor
+                                        by writing a <span class="bluetext"><b>compiler</b></span> for the language.
+                                        After months of work, I managed to compile
+                                        and run a program to count the number of primes under 1000.
+                                    </p>
+                                    <br />
+                                    <p>
+                                        In addition, I got into learning how quantum computers work using <b>Qiskit</b>
+                                        and the <b>IBM Learning</b> platform.
+                                        This directly inspired the animation in the title of this website, hover over
+                                        the title to find out more.
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+
+                    <section class="entry" data-year="2024">
+                        <article class="card compact tight">
+                            <h1>where warriors are made</h1>
+                            <div class="meta">
+                                <span class="tag blue">University</span>
+                                <span class="tag yellow">Experience</span>
+                                <span class="tag green">LeetCode</span>
+                                <span class="tag violet">Hobby</span>
+                                <span class="date">09/2024</span>
+                            </div>
+                            <div class="media-row">
+                                <img class="media square" src="./assets/picture5.png" alt="2024" loading="lazy" />
+                                <div class="copy">
+                                    <p>
+                                        After completing my A-Levels, I started my CS degree at the University of
+                                        Warwick.
+                                        This is when I began my <span class="bluetext"><b>LeetCode</b></span> journey,
+                                        which started as a side project to improve my
+                                        problem solving and competitive programming skills.
+                                    </p>
+                                    <br />
+                                    <p>
+                                        In addition, I started contributing to my sixth form's Computer Science
+                                        educational website, Python Sponge,
+                                        where I wrote A-Level CS tutorials for existing students. This would be the
+                                        first of my volunteering experiences.
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+
+                    <section class="entry" data-year="2025">
+                        <article class="card compact tight">
+                            <h1>ukiepc; uwcs prog comp</h1>
+                            <div class="meta">
+                                <span class="tag blue">Competitive Programming</span>
+                                <span class="date">01/2025</span>
+                            </div>
+                            <div class="media-row">
+                                <img class="media square" src="./assets/picture6.jpeg" alt="2025" loading="lazy" />
+                                <div class="copy">
+                                    <p>
+                                        I returned to competitive programming and did the <b>UK & Ireland Programming
+                                            Contest</b>
+                                        (UKIEPC) 2024 and placed <i>3rd</i> on the Warwick leaderboard, <i>37th</i>
+                                        nationally.
+                                    </p>
+                                    <br />
+                                    <p>
+                                        In January 2025, me and two friends won the <b>UWCS Programming Competition</b>,
+                                        my first and only competitive programming win.
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+
+                    <section class="entry" data-year="2025">
+                        <article class="card compact tight">
+                            <h1>free software foundation</h1>
+                            <div class="meta">
+                                <span class="tag green">Experience</span>
+                                <span class="tag blue">Linux</span>
+                                <span class="tag red">Neovim</span>
+                                <span class="tag violet">Projects</span>
+                                <span class="date">06/2025</span>
+                            </div>
+                            <div class="media-row">
+                                <img class="media square" src="./assets/picture10.png" alt="2025" loading="lazy" />
+                                <div class="copy">
+
+                                    <p>
+                                        My next step-up in experience is joining the <span class="bluetext"><b>Free Software Foundation</b></span>
+                                        as a <i>systems operations volunteer</i>, where I furthered my linux & systems skills whilst finally 
+                                        being able to make a contribution. From this, I've picked up using free software like 
+                                        <i>Firefox</i>, <i>Thunderbird</i>, and encrypted emails using <i>GPG</i>.
+                                    </p>
+                                    <br/>
+                                    <p>
+                                        Meanwhile, I finally picked up using Linux full time and switched to <i>neovim</i> as my
+                                        main text editor.
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+
+                    <section class="entry" data-year="2025">
+                        <article class="card compact tight">
+                            <h1>computing insight uk</h1>
+                            <div class="meta">
+                                <span class="tag green">Experience</span>
+                                <span class="tag blue">High Performance Computing</span>
+                                <span class="tag violet">Achievement</span>
+                                <span class="date">12/2025</span>
+                            </div>
+                            <div class="media-row">
+                                <img class="media square" src="./assets/picture11.jpeg" alt="2025" loading="lazy" />
+                                <div class="copy">
+                                    <p>
+                                        After completing first year achieving the <span class="violettext"><b>2nd highest mark</b></span> in my cohort,
+                                        I joined <span class="bluetext"><b>Warwick Coding Society</b></span>'s team to compete in the UK's largest supercomputing
+                                        competition, the <b>CIUK Cluster Challenge</b>. Team CodeSoc achieved first place in the prelim round,
+                                        and second place in the OCF challenge in the final.
+                                    </p>
+                                    <br/>
+                                    <p>
+                                        All the 2am nights and six-hour meetings taught me what real teamwork was, couldn't have done it without
+                                        my amazing team.
+                                    </p>
+                                    <br/>
+                                    <p>
+                                        p.s. we also earnt a free 3-day holiday to Manchester so i could skip more lectures :)
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+
+                    <section class="entry" data-year="2026">
+                        <article class="card compact tight">
+                            <h1>internships; hackeurope</h1>
+                            <div class="meta">
+                                <span class="tag blue">Internships</span>
+                                <span class="tag green">Hackathon</span>
+                                <span class="tag orange">Personal Life</span>
+                                <span class="date">02/2026</span>
+                            </div>
+                            <div class="media-row">
+                                <img class="media square" src="./assets/picture12.jpeg" alt="2026" loading="lazy" />
+                                <div class="copy">
+                                    <p>
+                                        To start off 2026, after lots of interviews, I secured a SWE internship @ 
+                                        <span class="greentext"><b>Balyasny Asset Management</b></span> and a SWE placement 
+                                        @ <span class="greentext"><b>GE Vernova</b></span> this coming year. 
+                                        I look forward to joining both teams for an exciting year ahead.
+                                    </p> 
+                                    <br/>
+                                    <p>
+                                        I also attended Europe's largest hackathon, <span class="bluetext"><b>hackeurope</b></span>, in Dublin where we
+                                        built a <a href="https://devpost.com/software/dropshit">chrome extension to detect dropshippers</a>. 
+                                        It was also my first solo holiday and got an opportunity to explore Dublin a bit and practice
+                                        some photography.
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+
+                    <section class="entry" data-year="2026">
+                        <article class="card compact tight">
+                            <h1>what's next</h1>
+                            <div class="meta">
+                                <span class="date">03/2026</span>
+                            </div>
+                            <p>
+                                As of writing this website, I will be finishing my 2nd year at Warwick soon, and then working as a SWE intern
+                                at two companies for the next 15 months before coming back to finish my 3rd year.
+                            </p>
+                            <br/>
+                            <p>
+                                I plan on picking up competitive programming again, building more projects, potentially 
+                                starting a blog, and learning more about life along the way - I
+                                look forward for what's to come.
+                            </p>
+                        </article>
+                    </section>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="./script.js"></script>
 </body>
-</html>
 
+</html>

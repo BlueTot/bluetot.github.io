@@ -1,0 +1,555 @@
+body {
+    font-family: monospace;
+    margin: 0;
+}
+
+#title-box {
+    height: 100vh;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: black;
+    color: #1e90ff;
+    font-size: 5rem;
+}
+
+/* container shrinks to title size but has extra padding on the right
+so moving toward the button stays inside the hover area */
+#title-container {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    padding-right: 3.5rem;     /* <-- critical: expands container hover area */
+    margin-left: 3.5rem; <-- /* this has to be the same to keep the title in the centre of the screen */
+}
+
+/* title button */
+#title {
+    font-family: monospace;
+    font-size: 5rem;
+    background: transparent;
+    color: #1e90ff;
+    border: none;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    text-shadow: 0 0 15px #1e90ff, 0 0 30px #1e90ff, 0 0 50px #1e90ff;
+}
+
+/* info button — positioned inside the padded area (not outside it) */
+#info-button {
+    position:absolute;
+    top: 50%;
+    right: 0.25rem;
+    transform: translateY(-50%);
+    z-index: 20;                 /* ensure it's above other elements */
+
+    font-size: 1.75rem;
+    text-decoration: none;
+    color: white;
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.12s ease;
+}
+
+/* show it while hovering the container or button */
+#title-container:hover #info-button {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Social icons */
+#social-icons {
+    margin-top: 1.5rem;
+    font-size: 2.5rem;
+    display: flex;
+    gap: 2rem;
+}
+
+#social-icons a {
+    color: #1e90ff;
+    transition: color 0.3s;
+}
+
+#social-icons a:hover {
+    color: white;
+}
+
+/* Nav bar */
+nav {
+    position: absolute;   /* stay on top of hero section */
+    top: 0;
+    right: 0;
+    padding: 1rem 2rem;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 2rem;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+.divider {
+    border: none;
+    height: 2px;
+    background: linear-gradient(90deg, #00ffff, #ff00ff, #39ff14, #9d4edd);
+    box-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
+    margin: 0;
+}
+
+#timeline {
+    display: flex;
+    padding-top: 5%;
+    width: 80%;
+}
+
+#timeline-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25%;
+}
+
+#timeline-left {
+    width: 37.5%;
+}
+
+#timeline-right {
+    width: 37.5%;
+}
+
+.timeline-top {
+    width: 50%;
+    border: none;
+    height: 0.5rem;
+    background: #1e90ff;          /* neon blue */
+    box-shadow: 
+        0 0 10px #1e90ff,
+        0 0 20px #1e90ff,
+        0 0 40px #1e90ff;           /* glow layers */
+    border-radius: 2px;
+    margin: 0;
+}
+
+#bio-box {
+    display: flex;
+    width: 80%;
+    padding-top: 3%;
+}
+
+#pfp {
+    margin-top: 6%;
+    width: 35%;
+    height: 35%;
+    border-radius: 50%;
+    display: block;
+    border: 4px solid #1e90ff; /* neon border */
+    box-shadow: 
+        0 0 15px #1e90ff,
+        0 0 30px #1e90ff,
+        0 0 50px #1e90ff; /* glowing layers */
+}
+
+#timeline-line {
+    position: relative;
+    width: 2.5%;
+    height: 100%;
+    background-color: #1e90ff;
+    flex-grow: 1;
+    box-shadow: 0 0 10px #1e90ff, 0 0 20px #1e90ff;
+}
+
+#bio {
+    font-size: 1rem;
+    color: #ffffff;
+    width: 100%;
+    padding-left: 10%;
+}
+
+#challenges-bio {
+    font-size: 1rem;
+    color: #ffffff;
+    padding-top: 3%;
+    padding-bottom: 1%;
+    width: 60%;
+    text-align: justify;
+    justify-align: center;
+}
+
+#name {
+    color: #ff00ff;
+    font-size: 1.5rem;
+}
+
+#experiences {
+    color: #ffff00;
+    font-size: 1.3rem;
+    margin: 1rem 0 0 0;
+}
+
+#about, #skills-box, #challenges {
+    padding: 4rem 2rem;
+    background: black;
+    color: #1e90ff;
+    font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* Timeline container */
+.timeline {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    border-left: 4px solid #1e90ff;
+    padding-left: 3%;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background: black;               /* so text stays readable */
+    border: 2px solid #1e90ff;       /* match spine */
+    color: #1e90ff;                  /* year text also in neon blue */
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 
+        0 0 10px #1e90ff,
+        0 0 20px #1e90ff,
+        0 0 40px #1e90ff;
+    z-index: 5;
+}
+
+
+/* Each item */
+.timeline-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    --accent: #00ffff;
+    --accent-light: #66ffff;
+}
+
+.timeline-item.magenta {
+    --accent: #ff00ff;
+    --accent-light: #ff66ff;
+}
+
+.timeline-item.green {
+    --accent: #39ff14;
+    --accent-light: #66ff66;
+}
+
+.timeline-item.purple {
+    --accent: #9dfedd;
+    --accent-light: #c77dff;
+}
+
+.timeline-item.orange {
+    --accent: #ff6ec7;
+    --accent-light: #ffcc66;
+}
+
+/* Dot */
+.timeline-dot {
+    position: absolute;
+    left: -1.25rem;       /* place dot at left edge */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1rem;
+    height: 1rem;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
+}
+
+.timeline-item.right .timeline-dot {
+    left: auto;
+    right: -1.25rem; /* push to the right instead */
+}
+
+.timeline-item.right .connector {
+    left: 102%; /* start from the right edge of the box + a 2% gap */
+    right: auto;
+    width: 30%;
+}
+
+/* Connector (horizontal line back to spine) */
+.connector {
+    position: absolute;
+    top: 50%;
+    left: -32.5%; /* adjust based on timeline width */
+    transform: translateY(-50%);
+    height: 4px;
+    width: 28%; /* length of connector */
+    background: var(--accent);
+    border-radius: 2px;
+    box-shadow: 
+        0 0 10px var(--accent),
+        0 0 20px var(--accent),
+        0 0 40px var(--accent);
+}
+
+
+.timeline-content {
+    position: relative; /* needed so the date can anchor inside */
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    padding: 1rem 1.5rem 2rem 1.5rem; /* extra bottom padding for date */
+    border-radius: 0.5rem;
+    border: 1px solid var(--accent);
+    text-align: left;
+    box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 60%, transparent);
+    transition: transform 0.2s;
+}
+
+.timeline-content .date {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--accent-light, var(--accent));
+    opacity: 0.8;
+    text-shadow: 0 0 5px var(--accent);
+}
+
+.timeline-content:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 15px var(--accent), 0 0 30px var(--accent);
+}
+
+/* Year label */
+.timeline-content h3 {
+    margin-top: 0;
+    /* color: #00bfff; */
+    /* text-shadow: 0 0 8px #00bfff; */
+    color: var(--accent-light, var(--accent));
+    text-shadow: 0 0 8px var(--accent);
+}
+
+.timeline-content p {
+    color: #ffffff;
+    font-size: 1rem;
+}
+
+/* Headline glow */
+#about h2, #skills-box h2, #challenges h2 {
+    font-size: 3rem;
+    text-shadow: 0 0 10px #1e90ff, 0 0 20px #1e90ff;
+    margin-bottom: 1.5rem;
+    display: flex;
+}
+
+#skills-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 2rem;
+    width: 70%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+
+#skill-icons-box {
+    flex: 0 0 55%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* #skills-bio { */
+/*     width: 0 0 40%; */
+/*     color: white; */
+/*     font-size: 1rem; */
+/*     padding-left: 10%; */
+/* } */
+
+/* Each category box */
+.skills-category {
+    background: #111; /* slightly lighter than page bg */
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-top: 3%;
+    width: 100%;
+    position: relative;
+    border: 1px solid #1e90ff;
+    box-shadow: 0 0 15px #1e90ff, 0 0 30px #ff00ff;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Titles */
+.skills-category h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.25rem;
+    font-family: monospace;
+    color: #00ffff;
+    text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
+}
+
+/* Icon grid inside each category */
+.skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 1.2rem;
+    width: 100%;
+}
+
+/* Icons themselves */
+.skills-grid i {
+    font-size: 3rem;
+    color: #fff;
+    text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+    transition: transform 0.2s, text-shadow 0.2s;
+    cursor: pointer;
+}
+
+.skills-grid i:hover {
+    transform: scale(1.25);
+    text-shadow: 0 0 10px #1e90ff,
+                 0 0 20px #ff00ff,
+                 0 0 30px #39ff14;
+}
+
+.skills-grid i::after {
+    font-family: monospace;
+    content: attr(title);
+    position: absolute;
+    bottom: -2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #111;
+    color: #1e90ff;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.4rem;
+    font-size: 0.8rem;
+    opacity: 0;
+    white-space: nowrap;
+    pointer-events: none;
+    transition: opacity 0.2s, transform 0.2s;
+    box-shadow: 0 0 10px #1e90ff, 0 0 20px #1e90ff;
+}
+
+/* Show tooltip on hover */
+.skills-grid i:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-0.2rem);
+}
+
+/* Slightly different glow color per proficiency */
+.skills-category.language {
+    border-color: #39ff14;
+    box-shadow: 0 0 15px #39ff14, 0 0 30px #39ff14;
+}
+.skills-category.framework {
+    border-color: #00ffff;
+    box-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff;
+}
+.skills-category.tool {
+    border-color: #ff00ff;
+    box-shadow: 0 0 15px #ff00ff, 0 0 30px #ff00ff;
+}
+
+#skills-bio {
+    background: #111; /* same dark base as skill boxes */
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-top: 1.5%;
+    width: 100%; /* it’ll be constrained by the flex 40% rule */
+    border: 1px solid #ffd700; /* neon yellow border */
+    box-shadow: 0 0 15px #ffd700, 0 0 30px #ffd700;
+    font-family: monospace;
+    color: #ddd;
+    line-height: 1.5;
+    margin-left: 10%;
+    max-height: 100%;
+}
+
+/* Add a header to match category titles */
+#skills-bio h3 {
+    margin-top: 0;
+    font-size: 1.25rem;
+    color: #00ffff;
+    text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
+}
+
+/* Paragraphs inside bio */
+#skills-bio p {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+
+.stats-box {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.stats-card {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.stats-card::after {
+  font-family: monospace;
+  content: attr(data-label); /* use the custom label */
+  position: absolute;
+  bottom: -2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111;
+  color: #1e90ff;
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.4rem;
+  font-size: 0.8rem;
+  opacity: 0;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+  box-shadow: 0 0 10px #1e90ff, 0 0 20px #1e90ff;
+}
+
+.stats-card:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-0.2rem);
+}
+
+.orange {
+    color: #ff8c00;
+}
