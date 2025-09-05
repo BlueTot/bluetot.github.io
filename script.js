@@ -1,12 +1,17 @@
-// All ASCII chars from 0–127
-const asciiChars = Array.from({length: 128}, (_, i) => String.fromCharCode(i));
+let isAnimating = false;
 
 async function show_flicker(word) {
+    if (isAnimating) return;
+    isAnimating = true;
+
+    const output = document.getElementById("title");
+    output.textContent = "";
 
     const response = await fetch("./assets/probs.json");
     const maxProbs = await response.json();
 
-    console.log(maxProbs);
+    // all ASCII chars from 0–127
+    const asciiChars = Array.from({length: 128}, (_, i) => String.fromCharCode(i));
 
     let iteration = 0;
 
@@ -19,7 +24,7 @@ async function show_flicker(word) {
         return asciiChars.map((_, i) => i === targetIndex ? highProb : lowProb);
     }
 
-    // Weighted random selection
+    // weighted random selection
     function weightedRandom(probs) {
         const r = Math.random();
         let acc = 0;
@@ -29,11 +34,10 @@ async function show_flicker(word) {
         }
         return asciiChars[asciiChars.length - 1];
     }
-
+    
     // increment iteration once in a while
     const iterTimer = setInterval(() => { 
         iteration++;
-        console.log(iteration);
 
         if (iteration > 12) {
             clearInterval(iterTimer);
@@ -41,10 +45,10 @@ async function show_flicker(word) {
     }, 250);
 
     // Flicker effect
-    const output = document.getElementById("title");
     const outputTimer = setInterval(() => {
         if (iteration > 12) {
-            output.textContent = word;
+            output.textContent = word; // set back word
+            isAnimating = false; // reset
             clearInterval(outputTimer);
             return;
         }
@@ -53,9 +57,13 @@ async function show_flicker(word) {
                 probs(iteration, word.charCodeAt(index))
             )
         ).join("");
-    }, 20); // 50ms per flicker
-
+    }, 20); // flicker every 20ms
+    
 }
+
+document.getElementById("title").addEventListener(
+    "click", () => show_flicker("bluetot")
+);
 
 show_flicker("bluetot");
 

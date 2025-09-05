@@ -1,14 +1,119 @@
 body {
-    background: black;
-    color: #00ff99;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
     font-family: monospace;
+    margin: 0;
 }
 
-#title {
+#title-box {
+    height: 100vh;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: black;
+    color: #1e90ff;
     font-size: 5rem;
-    text-shadow: 0 0 10px #00ff99, 0 0 20px #00ff99;
+}
+
+/* container shrinks to title size but has extra padding on the right
+so moving toward the button stays inside the hover area */
+#title-container {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    padding-right: 3.5rem;     /* <-- critical: expands container hover area */
+    margin-left: 3.5rem;
+}
+
+/* title button */
+#title {
+    font-family: monospace;
+    font-size: 5rem;
+    background: transparent;
+    color: #1e90ff;
+    border: none;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    text-shadow: 0 0 15px #1e90ff, 0 0 30px #1e90ff, 0 0 50px #1e90ff;
+}
+
+/* info button — positioned inside the padded area (not outside it) */
+#info-button {
+    position:absolute;
+    top: 50%;
+    right: 0.25rem;
+    transform: translateY(-50%);
+    z-index: 20;                 /* ensure it's above other elements */
+
+    font-size: 1.75rem;
+    text-decoration: none;
+    color: white;
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.12s ease;
+}
+
+/* show it while hovering the container or button */
+#title-container:hover #info-button {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#about {
+    padding: 4rem;
+    background: #f4f4f4;
+    color: #333;
+    font-size: 4rem;
+    text-align: center;
+}
+
+/* Social icons */
+#social-icons {
+    margin-top: 1.5rem;
+    font-size: 2.5rem;
+    display: flex;
+    gap: 2rem;
+}
+
+#social-icons a {
+    color: #1e90ff;
+    transition: color 0.3s;
+}
+
+#social-icons a:hover {
+    color: white;
+}
+
+/* Nav bar */
+nav {
+    position: absolute;   /* stay on top of hero section */
+    top: 0;
+    right: 0;
+    padding: 1rem 2rem;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 2rem;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+nav a:hover {
+    text-decoration: underline;
 }
