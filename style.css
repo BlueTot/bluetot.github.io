@@ -158,14 +158,6 @@ nav a:hover {
     padding-top: 3%;
 }
 
-#timeline-box {
-    width: 30%;
-    margin-top: 1%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 #pfp {
     margin-top: 2%;
     width: 35%;
@@ -179,21 +171,12 @@ nav a:hover {
         0 0 50px #1e90ff; /* glowing layers */
 }
 
-#timeline-boxes {
-    padding-top: 15%;
-}
-
 #timeline-line {
     width: 2.5%;
     height: 100%;
     background-color: #1e90ff;
     flex-grow: 1;
     box-shadow: 0 0 10px #1e90ff, 0 0 20px #1e90ff;
-}
-
-#text-boxes {
-    width: 70%;
-    padding-left: 10%;
 }
 
 #bio {
@@ -266,7 +249,7 @@ nav a:hover {
 
 .timeline-item.orange {
     --accent: #ff6ec7;
-    -accent-light: #ffcc66;
+    --accent-light: #ffcc66;
 }
 
 /* Dot */
