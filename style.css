@@ -22,7 +22,7 @@ so moving toward the button stays inside the hover area */
     align-items: center;
     position: relative;
     padding-right: 3.5rem;     /* <-- critical: expands container hover area */
-    margin-left: 3.5rem;
+    margin-left: 3.5rem; <-- /* this has to be the same to keep the title in the centre of the screen */
 }
 
 /* title button */
@@ -132,7 +132,7 @@ nav a:hover {
 }
 
 #bio {
-    font-size: 1.3rem;
+    font-size: 1rem;
     padding-left: 5%;
     color: #ffffff;
     width: 100%;
@@ -140,6 +140,7 @@ nav a:hover {
 
 #name {
     color: #ff00ff;
+    font-size: 1.5rem;
 }
 
 #about {
