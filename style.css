@@ -124,16 +124,41 @@ nav a:hover {
     padding-top: 3%;
 }
 
-#pfp {
+#timeline-box {
     width: 30%;
-    height: 30%;
-    border-radius: 50%;
     margin-top: 1%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#pfp {
+    width: 100%;
+    /* height: 100%; */
+    border-radius: 50%;
+    display: block;
+}
+
+#timeline-boxes {
+    padding-top: 15%;
+}
+
+#timeline-line {
+    width: 4px;
+    height: 150px;
+    background-color: #1e90ff;
+    flex-grow: 1;
+    box-shadow: 0 0 10px #1e90ff, 0 0 20px #1e90ff;
+}
+
+#text-boxes {
+    width: 70%;
+    padding-left: 5%;
 }
 
 #bio {
     font-size: 1rem;
-    padding-left: 5%;
+    /* padding-left: 5%; */
     color: #ffffff;
     width: 100%;
 }
@@ -166,11 +191,18 @@ nav a:hover {
 
 /* Timeline container */
 .timeline {
-    margin: 3rem auto 0 auto;
     position: relative;
-    max-width: 600px;
-    border-left: 2px solid #1e90ff;
-    padding-left: 2rem;
+    display: flex;
+    flex-direction: column;
+    /* margin: 3rem auto 0 auto; */
+    /* margin-top: %; */
+    /* margin-left: -30%; */
+    width: 60%;
+    /* position: relative; */
+    /* max-width: 80%; */
+    /* max-width: 600px; */
+    border-left: 4px solid #1e90ff;
+    padding-left: 3%;
 }
 
 /* Each item */
