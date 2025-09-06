@@ -140,7 +140,7 @@ nav a:hover {
 }
 
 #timeline-top {
-    width: 80%;
+    width: 50%;
     border: none;
     height: 2.5%;
     background: #1e90ff;          /* neon blue */
@@ -189,7 +189,6 @@ nav a:hover {
     background-color: #1e90ff;
     flex-grow: 1;
     box-shadow: 0 0 10px #1e90ff, 0 0 20px #1e90ff;
-    /* margin-top: -9%; */
 }
 
 #text-boxes {
@@ -281,6 +280,17 @@ nav a:hover {
     background: var(--accent);
     border-radius: 50%;
     box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
+}
+
+.timeline-item.right .timeline-dot {
+    left: auto;
+    right: -1.25rem; /* push to the right instead */
+}
+
+.timeline-item.right .connector {
+    left: 102%; /* start from the right edge of the box + a 2% gap */
+    right: auto;
+    width: 30%;
 }
 
 /* Connector (horizontal line back to spine) */
