@@ -159,7 +159,7 @@ nav a:hover {
 }
 
 #pfp {
-    margin-top: 2%;
+    margin-top: 6%;
     width: 35%;
     height: 35%;
     border-radius: 50%;
@@ -190,6 +190,12 @@ nav a:hover {
 #name {
     color: #ff00ff;
     font-size: 1.5rem;
+}
+
+#experiences {
+    color: #ffff00;
+    font-size: 1.3rem;
+    margin: 1rem 0 0 0;
 }
 
 #about, #skills {
