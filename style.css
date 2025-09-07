@@ -142,7 +142,7 @@ nav a:hover {
 #timeline-top {
     width: 50%;
     border: none;
-    height: 2.5%;
+    height: 0.5rem;
     background: #1e90ff;          /* neon blue */
     box-shadow: 
         0 0 10px #1e90ff,
@@ -172,6 +172,7 @@ nav a:hover {
 }
 
 #timeline-line {
+    position: relative;
     width: 2.5%;
     height: 100%;
     background-color: #1e90ff;
@@ -221,6 +222,29 @@ nav a:hover {
     border-left: 4px solid #1e90ff;
     padding-left: 3%;
 }
+
+.timeline-marker {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background: black;               /* so text stays readable */
+    border: 2px solid #1e90ff;       /* match spine */
+    color: #1e90ff;                  /* year text also in neon blue */
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 
+        0 0 10px #1e90ff,
+        0 0 20px #1e90ff,
+        0 0 40px #1e90ff;
+    z-index: 5;
+}
+
 
 /* Each item */
 .timeline-item {
