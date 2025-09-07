@@ -192,7 +192,7 @@ nav a:hover {
     font-size: 1.5rem;
 }
 
-#about {
+#about, #skills {
     padding: 4rem 2rem;
     background: black;
     color: #1e90ff;
@@ -204,7 +204,7 @@ nav a:hover {
 }
 
 /* Headline glow */
-#about h2 {
+#about h2, #skills h2 {
     font-size: 3rem;
     text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
     margin-bottom: 1.5rem;
@@ -316,15 +316,26 @@ nav a:hover {
         0 0 40px var(--accent);
 }
 
-/* Event box */
+
 .timeline-content {
-    background: color-mix(in srgb, var(--accent) 10%, transparent); /* subtle glowing panel */
-    padding: 1rem 1.5rem;
+    position: relative; /* needed so the date can anchor inside */
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    padding: 1rem 1.5rem 2rem 1.5rem; /* extra bottom padding for date */
     border-radius: 0.5rem;
     border: 1px solid var(--accent);
     text-align: left;
     box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 60%, transparent);
     transition: transform 0.2s;
+}
+
+.timeline-content .date {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--accent-light, var(--accent));
+    opacity: 0.8;
+    text-shadow: 0 0 5px var(--accent);
 }
 
 .timeline-content:hover {
