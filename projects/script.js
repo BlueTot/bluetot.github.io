@@ -7,7 +7,7 @@ async function show_flicker(word) {
     const output = document.getElementById("title");
     output.textContent = "";
 
-    const response = await fetch("./assets/probs.json");
+    const response = await fetch("/assets/probs.json");
     const maxProbs = await response.json();
 
     // all ASCII chars from 0–127
