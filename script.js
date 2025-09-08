@@ -34,7 +34,7 @@ async function show_flicker(word) {
         }
         return asciiChars[asciiChars.length - 1];
     }
-    
+
     // increment iteration once in a while
     const iterTimer = setInterval(() => { 
         iteration++;
@@ -58,8 +58,9 @@ async function show_flicker(word) {
             )
         ).join("");
     }, 20); // flicker every 20ms
-    
+
 }
+
 
 document.getElementById("title").addEventListener(
     "click", () => show_flicker("bluetot")

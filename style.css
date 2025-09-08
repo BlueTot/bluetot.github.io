@@ -139,7 +139,7 @@ nav a:hover {
     width: 37.5%;
 }
 
-#timeline-top {
+.timeline-top {
     width: 50%;
     border: none;
     height: 0.5rem;
@@ -187,6 +187,16 @@ nav a:hover {
     padding-left: 10%;
 }
 
+#challenges-bio {
+    font-size: 1rem;
+    color: #ffffff;
+    padding-top: 3%;
+    padding-bottom: 1%;
+    width: 60%;
+    text-align: justify;
+    justify-align: center;
+}
+
 #name {
     color: #ff00ff;
     font-size: 1.5rem;
@@ -198,7 +208,7 @@ nav a:hover {
     margin: 1rem 0 0 0;
 }
 
-#about, #skills {
+#about, #skills-box, #challenges {
     padding: 4rem 2rem;
     background: black;
     color: #1e90ff;
@@ -207,15 +217,6 @@ nav a:hover {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-/* Headline glow */
-#about h2, #skills h2 {
-    font-size: 3rem;
-    text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
-    margin-bottom: 1.5rem;
-    display: flex;
-    color: #00ffff;
 }
 
 
@@ -363,3 +364,162 @@ nav a:hover {
     font-size: 1rem;
 }
 
+/* Headline glow */
+#about h2, #skills-box h2, #challenges h2 {
+    font-size: 3rem;
+    text-shadow: 0 0 10px #1e90ff, 0 0 20px #1e90ff;
+    margin-bottom: 1.5rem;
+    display: flex;
+}
+
+#skills-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+    width: 70%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+
+#skill-icons-box {
+    flex: 0 0 55%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+#skills-bio {
+    width: 0 0 40%;
+    color: white;
+    font-size: 1rem;
+    padding-left: 10%;
+}
+
+/* Each category box */
+.skills-category {
+    background: #111; /* slightly lighter than page bg */
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-top: 3%;
+    width: 100%;
+    position: relative;
+    border: 1px solid #1e90ff;
+    box-shadow: 0 0 15px #1e90ff, 0 0 30px #ff00ff;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Titles */
+.skills-category h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.25rem;
+    font-family: monospace;
+    color: #00ffff;
+    text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
+}
+
+/* Icon grid inside each category */
+.skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 1.2rem;
+    width: 100%;
+}
+
+/* Icons themselves */
+.skills-grid i {
+    font-size: 3rem;
+    color: #fff;
+    text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+    transition: transform 0.2s, text-shadow 0.2s;
+    cursor: pointer;
+}
+
+.skills-grid i:hover {
+    transform: scale(1.25);
+    text-shadow: 0 0 10px #1e90ff,
+                 0 0 20px #ff00ff,
+                 0 0 30px #39ff14;
+}
+
+.skills-grid i::after {
+    font-family: monospace;
+    content: attr(title);
+    position: absolute;
+    bottom: -2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #111;
+    color: #1e90ff;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.4rem;
+    font-size: 0.8rem;
+    opacity: 0;
+    white-space: nowrap;
+    pointer-events: none;
+    transition: opacity 0.2s, transform 0.2s;
+    box-shadow: 0 0 10px #1e90ff, 0 0 20px #1e90ff;
+}
+
+/* Show tooltip on hover */
+.skills-grid i:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-0.2rem);
+}
+
+/* Slightly different glow color per proficiency */
+.skills-category.advanced {
+    border-color: #39ff14;
+    box-shadow: 0 0 15px #39ff14, 0 0 30px #39ff14;
+}
+.skills-category.intermediate {
+    border-color: #00ffff;
+    box-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff;
+}
+.skills-category.beginner {
+    border-color: #ff00ff;
+    box-shadow: 0 0 15px #ff00ff, 0 0 30px #ff00ff;
+}
+
+.stats-box {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.stats-card {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.stats-card::after {
+  font-family: monospace;
+  content: attr(data-label); /* use the custom label */
+  position: absolute;
+  bottom: -2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111;
+  color: #1e90ff;
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.4rem;
+  font-size: 0.8rem;
+  opacity: 0;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+  box-shadow: 0 0 10px #1e90ff, 0 0 20px #1e90ff;
+}
+
+.stats-card:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-0.2rem);
+}
+
+.orange {
+    color: #ff8c00;
+}

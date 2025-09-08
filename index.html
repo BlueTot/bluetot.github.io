@@ -5,12 +5,12 @@
         <title>Home | BlueTot Dev</title>
         <link rel="stylesheet" href="./style.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
     </head>
     <body>
         <nav>
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="/skills">Skills</a></li>
                 <li><a href="/projects">Projects</a></li>
                 <li><a href="/cv">CV</a></li>
                 <li><a href="/blog">Blog</a></li>
@@ -134,30 +134,30 @@
 
                 </div>
                 <div id="timeline-center">
-                    <hr id="timeline-top"></hr>
+                    <hr class="timeline-top"></hr>
                     <div id="timeline-line">
 
-                    <div class="timeline-marker" style="top: 5%;">
-                        2021
-                    </div>
+                        <div class="timeline-marker" style="top: 5%;">
+                            2021
+                        </div>
 
-                    <div class="timeline-marker" style="top: 15%;">
-                        2022
-                    </div>
+                        <div class="timeline-marker" style="top: 15%;">
+                            2022
+                        </div>
 
-                    <div class="timeline-marker" style="top: 28%;">
-                        2023
-                    </div>
+                        <div class="timeline-marker" style="top: 28%;">
+                            2023
+                        </div>
 
-                    <div class="timeline-marker" style="top: 52%;">
-                        2024
-                    </div>
+                        <div class="timeline-marker" style="top: 52%;">
+                            2024
+                        </div>
 
-                    <div class="timeline-marker" style="top: 85%;">
-                        2025
+                        <div class="timeline-marker" style="top: 85%;">
+                            2025
+                        </div>
                     </div>
-
-                    </div>
+                    <hr class="timeline-top">
                 </div>
                 <div id="timeline-right">
 
@@ -176,7 +176,7 @@
                         <div class="timeline-dot"></div>
                         <div class="timeline-content">
                             <h3>BlueBotChessTest4</h3>
-                            <p>Leaving the realm of game development, my first major project that wasn't a video game was a <b>minimax chess engine</b> written in Python. Over the course of a year, I came to realise that Python wasn't exactly the best language for this, but eventually the chess engine reached a rating of <b>2000+</b> on chess.com after many many optimisations. From this, I first realised the importance of <i>speed</i> and <i>performance</i>.
+                            <p>Leaving the realm of game development, my first major project that wasn't a video game was a <b>minimax chess engine</b> written in Python. Over the course of a year, I came to realise that Python wasn't exactly the best language for this, but eventually the chess engine reached a rating of <b>2000+</b> on chess.com after many optimisations I learnt off the <i>Chess Programming Wiki</i>
                             </p>
                             <span class="date">04/2023 - 04/2024</span>
                         </div>
@@ -223,6 +223,63 @@
                             <span class="date">06/2025</span>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+        <hr class="divider">
+        <section id="skills-box">
+            <h2>Technical Skills</h2>
+
+            <div id="skills-container">
+                <div id="skill-icons-box">
+                    <div class="skills-category advanced">
+                        <h3>Advanced</h3>
+                        <div class="skills-grid">
+                            <i class="devicon-python-plain" title="Python"></i>
+                            <i class="devicon-cplusplus-plain" title="C++"></i>
+                            <i class="devicon-java-plain" title="Java"></i>
+                        </div>
+                    </div>
+
+                    <div class="skills-category intermediate">
+                        <h3>Intermediate</h3>
+                        <div class="skills-grid">
+                            <i class="devicon-javascript-plain" title="JavaScript"></i>
+                            <i class="devicon-typescript-plain" title="TypeScript"></i>
+                            <i class="devicon-react-original" title="React"></i>
+                            <i class="devicon-nodejs-plain" title="Node.js"></i>
+                            <i class="devicon-express-original" title="Express"></i>
+                        </div>
+                    </div>
+
+                    <div class="skills-category beginner">
+                        <h3>Beginner</h3>
+                        <div class="skills-grid">
+                            <i class="devicon-docker-plain" title="Docker"></i>
+                            <i class="devicon-mongodb-plain" title="MongoDB"></i>
+                            <i class="devicon-mysql-plain" title="MySQL"></i>
+                            <i class="devicon-linux-plain" title="Linux"></i>
+                        </div>
+                    </div>
+                </div>
+                <div id="skills-bio">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas posuere commodo velit vitae luctus. Ut porttitor vitae nisl non pharetra. Maecenas vel ante ac eros aliquet imperdiet. Phasellus vel enim dignissim, gravida tellus id, sodales erat. Etiam condimentum urna varius tellus ullamcorper fermentum. Suspendisse potenti. Ut sollicitudin ipsum pharetra pellentesque luctus. Pellentesque interdum a neque in iaculis. Proin nec placerat turpis. Sed vel viverra ligula, sit amet elementum est. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus condimentum enim non nulla consequat, sit amet auctor orci scelerisque.</p>
+                </div>
+            </div>
+        </section>
+        <hr class="divider">
+        <section id="challenges">
+            <h2>Coding Challenges</h2>
+
+            <div id="challenges-bio">
+                <p>One of my hobbies is doing <b>coding challenges</b> - whether it is a casual 11pm LeetCode session, or an early morning Advent of Code rush. Aside from <span class="orange">LeetCode</span> and <span class="orange">Codeforces</span>, I've also done <span class="orange">Advent of Code</span> 2022, 2023 & 2024, where I only attained all 50 stars in my lastest attempt. In addition, I've also done 123 problems on <span class="orange">Project Euler</span> to date, where I completed the first 100 in just 6 weeks. At the moment, I'm working towards <b><i>400</i></b> problems completed on LeetCode, and <b><i>100</i></b> problems completed on Codeforces.</p>
+            </div>
+            <div class="stats-box">
+                <div class="stats-card" data-label="LeetCode">
+                    <img alt="leetcode" src="https://leetcard.jacoblin.cool/bluetotkc?theme=dark&font=Rajdhani&height=290"/>
+                </div>
+                <div class="stats-card" data-label="Codeforces">
+                    <img alt="codeforces" src="https://codeforces-readme-stats.vercel.app/api/card?username=bluetotkc&theme=dark_lc&disable_animations=false&show_icons=true&force_username=true" />
                 </div>
             </div>
         </section>
