@@ -1,0 +1,228 @@
+body {
+    font-family: monospace;
+    margin: 0;
+}
+
+#title-box {
+    height: 100vh;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: black;
+    color: #1e90ff;
+    font-size: 5rem;
+}
+
+/* container shrinks to title size but has extra padding on the right
+so moving toward the button stays inside the hover area */
+#title-container {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    padding-right: 3.5rem;     /* <-- critical: expands container hover area */
+    margin-left: 3.5rem; <-- /* this has to be the same to keep the title in the centre of the screen */
+}
+
+/* title button */
+#title {
+    font-family: monospace;
+    font-size: 5rem;
+    background: transparent;
+    color: #1e90ff;
+    border: none;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    text-shadow: 0 0 15px #1e90ff, 0 0 30px #1e90ff, 0 0 50px #1e90ff;
+}
+
+/* info button — positioned inside the padded area (not outside it) */
+#info-button {
+    position:absolute;
+    top: 50%;
+    right: 0.25rem;
+    transform: translateY(-50%);
+    z-index: 20;                 /* ensure it's above other elements */
+
+    font-size: 1.75rem;
+    text-decoration: none;
+    color: white;
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.12s ease;
+}
+
+/* show it while hovering the container or button */
+#title-container:hover #info-button {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Social icons */
+#social-icons {
+    margin-top: 1.5rem;
+    font-size: 2.5rem;
+    display: flex;
+    gap: 2rem;
+}
+
+#social-icons a {
+    color: #1e90ff;
+    transition: color 0.3s;
+}
+
+#social-icons a:hover {
+    color: white;
+}
+
+/* Nav bar */
+nav {
+    position: absolute;   /* stay on top of hero section */
+    top: 0;
+    right: 0;
+    padding: 1rem 2rem;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 2rem;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+.divider {
+    border: none;
+    height: 2px;
+    background: linear-gradient(90deg, #00ffff, #ff00ff, #39ff14, #9d4edd);
+    box-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
+    margin: 0;
+}
+
+/* Skills section */
+#skills-box {
+    padding: 4rem 2rem;
+    background: black;
+    color: #1e90ff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.5rem;
+}
+
+/* Headline glow */
+#skills-box h2 {
+    font-size: 3rem;
+    text-shadow: 0 0 10px #1e90ff, 0 0 20px #1e90ff;
+    margin-bottom: 1.5rem;
+    display: flex;
+}
+
+/* Each category box */
+.skills-category {
+    background: #111; /* slightly lighter than page bg */
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-top: 3%;
+    width: 40%;
+    position: relative;
+    border: 1px solid #1e90ff;
+    box-shadow: 0 0 15px #1e90ff, 0 0 30px #ff00ff;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Titles */
+.skills-category h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.25rem;
+    font-family: monospace;
+    color: #00ffff;
+    text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
+}
+
+/* Icon grid inside each category */
+.skills-grid {
+    display: flex;
+    /* grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); */
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 1.2rem;
+    width: 100%;
+}
+
+/* Icons themselves */
+.skills-grid i {
+    font-size: 3rem;
+    color: #fff;
+    text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+    transition: transform 0.2s, text-shadow 0.2s;
+    cursor: pointer;
+}
+
+.skills-grid i:hover {
+    transform: scale(1.25);
+    text-shadow: 0 0 10px #1e90ff,
+                 0 0 20px #ff00ff,
+                 0 0 30px #39ff14;
+}
+
+.skills-grid i::after {
+    font-family: monospace;
+    content: attr(title);
+    position: absolute;
+    bottom: -2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #111;
+    color: #1e90ff;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.4rem;
+    font-size: 0.8rem;
+    opacity: 0;
+    white-space: nowrap;
+    pointer-events: none;
+    transition: opacity 0.2s, transform 0.2s;
+    box-shadow: 0 0 10px #1e90ff, 0 0 20px #1e90ff;
+}
+
+/* Show tooltip on hover */
+.skills-grid i:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-0.2rem);
+}
+
+/* Slightly different glow color per proficiency */
+.skills-category.advanced {
+    border-color: #39ff14;
+    box-shadow: 0 0 15px #39ff14, 0 0 30px #39ff14;
+}
+.skills-category.intermediate {
+    border-color: #00ffff;
+    box-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff;
+}
+.skills-category.beginner {
+    border-color: #ff00ff;
+    box-shadow: 0 0 15px #ff00ff, 0 0 30px #ff00ff;
+}
+
