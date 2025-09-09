@@ -375,7 +375,7 @@ nav a:hover {
 #skills-container {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: stretch;
     gap: 2rem;
     width: 70%;
     padding-top: 5%;
@@ -389,12 +389,12 @@ nav a:hover {
     gap: 2rem;
 }
 
-#skills-bio {
-    width: 0 0 40%;
-    color: white;
-    font-size: 1rem;
-    padding-left: 10%;
-}
+/* #skills-bio { */
+/*     width: 0 0 40%; */
+/*     color: white; */
+/*     font-size: 1rem; */
+/*     padding-left: 10%; */
+/* } */
 
 /* Each category box */
 .skills-category {
@@ -483,6 +483,36 @@ nav a:hover {
     border-color: #ff00ff;
     box-shadow: 0 0 15px #ff00ff, 0 0 30px #ff00ff;
 }
+
+#skills-bio {
+    background: #111; /* same dark base as skill boxes */
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-top: 1.5%;
+    width: 100%; /* it’ll be constrained by the flex 40% rule */
+    border: 1px solid #ffd700; /* neon yellow border */
+    box-shadow: 0 0 15px #ffd700, 0 0 30px #ffd700;
+    font-family: monospace;
+    color: #ddd;
+    line-height: 1.5;
+    margin-left: 10%;
+    max-height: 100%;
+}
+
+/* Add a header to match category titles */
+#skills-bio h3 {
+    margin-top: 0;
+    font-size: 1.25rem;
+    color: #00ffff;
+    text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
+}
+
+/* Paragraphs inside bio */
+#skills-bio p {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
 
 .stats-box {
   display: flex;
