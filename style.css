@@ -471,15 +471,15 @@ nav a:hover {
 }
 
 /* Slightly different glow color per proficiency */
-.skills-category.advanced {
+.skills-category.language {
     border-color: #39ff14;
     box-shadow: 0 0 15px #39ff14, 0 0 30px #39ff14;
 }
-.skills-category.intermediate {
+.skills-category.framework {
     border-color: #00ffff;
     box-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff;
 }
-.skills-category.beginner {
+.skills-category.tool {
     border-color: #ff00ff;
     box-shadow: 0 0 15px #ff00ff, 0 0 30px #ff00ff;
 }
