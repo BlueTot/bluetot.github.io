@@ -117,3 +117,14 @@ nav a:hover {
     box-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
     margin: 0;
 }
+
+#cv-box {
+    padding: 4rem 2rem;
+    background: black;
+    color: #1e90ff;
+    font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
