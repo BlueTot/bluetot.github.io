@@ -1,301 +1,737 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Home | BlueTot Dev</title>
-        <link rel="stylesheet" href="./style.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
-    </head>
-    <body>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/projects">Projects</a></li>
-                <li><a href="/cv">CV</a></li>
-                <li><a href="/blog">Blog</a></li>
-            </ul>
-        </nav>
-        <section id="title-box">
-            <div id="title-container">
-                <button id="title"></button>
-                <a id="info-button" href="./special"><i class="fas fa-info-circle"></i></a>
-            </div>
-            <div id="social-icons">
-                <a href="https://github.com/BlueTot" target="_blank"><i class="fab fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/nok-hang-lo-2695a6282/" target="_blank"><i class="fab fa-linkedin"></i></a>
-            </div>
-        </section>
-        <hr class="divider">
-        <section id="about">
-            <h2>About Me</h2>
-            <div id="bio-box">
-                <img id="pfp" src="./assets/bluetot_icon.JPG" alt="my profile picture"/>
-                <div id="bio">
-                    <p id="name">
-                        <b><i>Hey there, I'm Nok Hang.</i></b>
-                    </p>
-                    <p>
-                        I'm an <span style="color: #ff8c00"><b>18-year-old</b></span> <b>second year</b> Computer Science undergraduate at the <b>University of Warwick.</b> In my first year, I was awarded a prize for <b>Exceptional achievement in the first-year of Computer Science</b>, achieving a mark of 86.5%.
-                    </p>
-                    <p>
-                        I'm an <span style="color: #ff8c00"><b>aspiring software engineer</b></span> interested in <b>systems programming, linux, compilers, and quantum computing</b>. I'm passionate about simple work setups, in particular, using the terminal and avoiding IDEs. I try to use as much open source and free software as possible.
-                    </p>
-                    <p>
-                        I've been programming since <span style="color: #ff8c00"><b>2021</b></span>, and in my free time, I work towards improving at competitive programming and becoming a LeetCode & CodeForces warrior. So far, I've placed <b>3rd</b> in Warwick for the UKIEPC 2024, and <b>won</b> the UWCS Programming Competition 2025.
-                    </p>
-                    <p id="experiences"><b><i>I am currently:</b></i></p>
-                    <ul>
-                        <li style="margin-bottom: 1rem;">
-                            A contributor for A-Level CS tutorials on <span style="color: #ff8c00"><b><i>python sponge</i></b></span>, a computer science educational website run by the Perse School, Cambridge.
-                        </li>
-                        <li style="margin-bottom: 1rem;">
-                            A member of the authoring and reviewing committee of <span style="color: #ff8c00"><b><i>PCTC</i></b></span>, a programming competition under the UKCT umbrella
-                        </li>
-                        <li style="margin-bottom: 1rem;">
-                            A systems operations volunteer at the <span style="color: #ff8c00"><b><i>Free Software Foundation</i></b></span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div id="timeline">
-                <div id="timeline-left">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BlueTot — Kanagawa Timeline</title>
 
-                    <div class="timeline-item right" style="margin-top: 20%;">
-                        <div class="timeline-content">
-                            <h3>Hello, World!</h3>
-                            <p>I started programming at the age of 14, when I learnt my first language - Python, which I'm still most proficient with to this day. I started out by making video games: my first project was a 2D minecraft clone made using pygame. For a while, I stuck to making games, my latest game being <a href="https://github.com/BlueTot/drift-boss-2d"><b>Drift Boss 2D</b></a>. Around July of 2021, I decided to pursue computer science at university.</p>
-                            <span class="date">01/2021</span>
-                        </div>
-                        <div class="timeline-dot"></div>
-                        <div class="connector"></div>
-                    </div>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-                    <div class="timeline-item orange right" style="margin-top: 80%;">
-                        <div class="timeline-content">
-                            <h3>Let's get competitive</h3>
-                            <p>I first entered the world of <b>competitive programming</b> via Advent of Code 2022, and other various competitions I did during Year 12. In my first AOC, I would attain 34/50 stars, but it would take me two more years to achieve all 50 stars. Later down the line, I started solving problems on <b>Project Euler</b>, where I completed 100 problems in just 6 weeks by July 2023.</p>
-                            <span class="date">12/2022, 07/2023</span>
-                        </div>
-                        <div class="timeline-dot"></div>
-                        <div class="connector"></div>
-                    </div>
+  <style>
+    /* ===== Dark Kanagawa-ish palette (wave, darker) ===== */
+    :root{
+      /* darker base */
+      --bg: #0b0d12;
+      --bg2:#0f1118;
+      --fg: #DCD7BA;
+      --muted: rgba(220,215,186,.70);
 
-                    <div class="timeline-item purple right" style="margin-top: 35%;">
-                        <div class="timeline-content">
-                            <h3>r2[31:0]=000000A8</h3>
-                            <p>Following on from learning <b>Verilog</b> in Year 12 to build a RTL microprocessor simulator, I built a <b>compiler</b> that translated my own simple programming language into custom assembly that the microprocessor used. Although the language didn't have functions or data types, it could reliably compute the number of primes under 1000 - the program's VCD output is in the heading. This deepened my knowledge of how a computer works, and set me up to learn C, C++ and Rust later down the line.</p>
-                            <span class="date">02/2024</span>
-                        </div>
-                        <div class="timeline-dot"></div>
-                        <div class="connector"></div>
-                    </div>
+      /* accents (Kanagawa-like) */
+      --blue: #7E9CD8;
+      --violet:#957FB8;
+      --green:#98BB6C;
+      --yellow:#E6C384;
+      --orange:#FFA066;
+      --red: #E46876;
 
-                    <div class="timeline-item magenta right" style="margin-top: 15%;">
-                        <div class="timeline-content">
-                            <h3>sqrt/binary</h3>
-                            <p>One of my interests is learning in depth about how systems work at the low-level, and this time I was intrigued about how so called "next-generation" quantum computers work. I learnt the basics off IBM Learning and various other online courses, such as <i>Grover</i> and <i>Shor's</i> algorithms, and started using the <b>Qiskit</b> framework to write quantum programs myself. This directly inspired the animation in the title of this website, hover over the title to find out more.</p>
-                            <span class="date">08/2024</span>
-                        </div>
-                        <div class="timeline-dot"></div>
-                        <div class="connector"></div>
-                    </div>
+      /* surfaces */
+      --panel: rgba(14, 16, 24, 0.78);
+      --border: rgba(220,215,186,.12);
 
-                    <div class="timeline-item green right" style="margin-top: 20%;">
-                        <div class="timeline-content">
-                            <h3>At last</h3>
-                            <p>I participated in the <b>UK & Ireland Programming Contest</b> (UKIEPC) 2024, and as a team of three, we got <i>3rd</i> on the Warwick leaderboard, <i>37th</i> nationally. In January 2025, I headed a team of three to win the <b>UWCS Programming Competition</b>, my first ever competitive programming win.</p>
-                            <span class="date">10/2024, 01/2025</span>
-                        </div>
-                        <div class="timeline-dot"></div>
-                        <div class="connector"></div>
-                    </div>
+      /* timeline geometry */
+      --max: 1120px;
+      --pad: 20px;
 
-                    <div class="timeline-item right" style="margin-top: 30%;">
-                        <div class="timeline-content">
-                            <h3>Free 4 Everyone</h3>
-                            <p>I joined the <b>Free Software Foundation</b> as a <i>systems operations volunteer</i> to help contribute/maintain projects done by the FSF. Through migrating a MediaWiki instance and testing a full stack PHP application, I furthered my terminal & system skills whilst finally entering the world of web development. I worked with standard web-dev tools like Apache, MySQL and PHP, but also free software like IRC, Trisquel and GPG encryption. My newfound appreciation for free software made me finally switch from Microsoft Edge & Outlook to Firefox & Thunderbird.</p>
-                            <span class="date">06/2025</span>
-                        </div>
-                        <div class="timeline-dot"></div>
-                        <div class="connector"></div>
-                    </div>
+      --sidebarW: 220px;
+      --gap: 44px;
 
+      --yearSize: 86px;
+      --lineX: 34px;
 
-                </div>
-                <div id="timeline-center">
-                    <hr class="timeline-top"></hr>
-                    <div id="timeline-line">
+      --line: rgba(220,215,186,.16);
+      --dotGlow: rgba(126,156,216,.14);
+      --dot: rgba(220,215,186,.95);
 
-                        <div class="timeline-marker" style="top: 5%;">
-                            2021
-                        </div>
+      /* title hover offset for info icon */
+      --title-hover-pad: 3.5rem;
 
-                        <div class="timeline-marker" style="top: 15%;">
-                            2022
-                        </div>
+      /* spacing between hero and timeline start */
+      --after-hero-gap: 620px;
 
-                        <div class="timeline-marker" style="top: 25%;">
-                            2023
-                        </div>
+      /* global entry spacing + year-change spacing */
+      --entry-gap: 70px;
+      --year-break-gap: 110px;
+      --after-about-break-gap: 170px;
+    }
 
-                        <div class="timeline-marker" style="top: 40%;">
-                            2024
-                        </div>
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body{
+      margin: 0;
+      font-family: monospace;
+      color: var(--fg);
+      background: var(--bg);
+      overflow-x: hidden;
+    }
 
-                        <div class="timeline-marker" style="top: 68%;">
-                            2025
-                        </div>
-                    </div>
-                    <hr class="timeline-top">
-                </div>
-                <div id="timeline-right">
+    /* Static dark background for whole page */
+    body::before{
+      content:"";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(1200px 700px at 15% -10%, rgba(126,156,216,.10), transparent 55%),
+        radial-gradient(1000px 650px at 90% 20%, rgba(149,127,184,.08), transparent 60%),
+        radial-gradient(900px 600px at 55% 110%, rgba(152,187,108,.06), transparent 60%),
+        linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.20)),
+        var(--bg);
+    }
 
-                    <div class="timeline-item magenta" style="margin-top: 100%;">
-                        <div class="connector"></div>
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <h3>migrate: 🇭🇰 -> 🇬🇧</h3>
-                            <p>After completing my IGCSEs with 9 A*s, I moved from my birthplace, Hong Kong, to Cambridge, UK, where I started sixth form at the Perse School, Cambridge.</p>
-                            <span class="date">06/2022 - 09/2022</span>
-                        </div>
-                    </div>
+    /* ===== Fixed overlay year+line ===== */
+    .sidebar{
+      position: fixed;
+      top: 0;
+      bottom: 0;
 
-                    <div class="timeline-item green" style="margin-top: 50%;">
-                        <div class="connector"></div>
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <h3>BlueBotChessTest4</h3>
-                            <p>Leaving the realm of game development, my first major project that wasn't a video game was a <b>minimax chess engine</b> written in Python. Over the course of a year, I came to realise that Python wasn't exactly the best language for this, but eventually the chess engine reached a rating of <b>2000+</b> on chess.com after many optimisations I learnt off the <i>Chess Programming Wiki</i>
-                            </p>
-                            <span class="date">04/2023 - 04/2024</span>
-                        </div>
-                    </div>
+      left: max(var(--pad), calc(50% - (var(--max) / 2) + var(--pad)));
+      width: var(--sidebarW);
 
-                    <div class="timeline-item" style="margin-top: 50%;">
-                        <div class="connector"></div>
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <h3>Python Sponge</h3>
-                            <p>After graduating from sixth form, I joined my first volunteering work helping write A Level CS tutorials for <b>Python Sponge</b>, my sixth form's Computer Science educational website. In addition, I was invited to the authoring and reviewing committee for <b>PCTC</b>, a coding competition hosted by my school.</p>
-                            <span class="date">07/2024</span>
-                        </div>
-                    </div>
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .25s ease;
+    }
+    .sidebar.active{ opacity: 1; }
 
-                    <div class="timeline-item orange" style="margin-top: 20%;">
-                        <div class="connector"></div>
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <h3>Where warriors are made</h3>
-                            <p>I started my 4-year MEng Computer Science degree at the University of Warwick after completing A Levels with 4 A*s in Maths, Further Maths, Physics, and Computer Science. Around the same time, I began my LeetCode journey as a side project with an aim to improve reasoning and competitive programming skills. To date, I've completed over 300 problems.</p>
-                            <span class="date">09/2024</span>
-                        </div>
-                    </div>
+    .sidebar::after{
+      content:"";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: calc(var(--sidebarW) - (var(--lineX)));
+      width: 2px;
+      background: var(--line);
+      border-radius: 999px;
+    }
 
-                    <div class="timeline-item purple" style="margin-top: 40%;">
-                        <div class="connector"></div>
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <h3>What's an IDE?</h3>
-                            <p>I first picked up Linux in August 2024 via an Ubuntu VM, and alongside it, I also started using vim. However, after multiple failed attempts to transition to using vim as my main editor, I finally made the switch to Neovim in May 2025 after successfully writing a config. From then on, I've improved at using the terminal and also made command line tools to help me with daily tasks, e.g. <a href="https://github.com/BlueTot/tatum">tatum</a>.</p>
-                            <span class="date">05/2025</span>
-                        </div>
-                    </div>
+    .year{
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      font-weight: 900;
+      font-size: var(--yearSize);
+      letter-spacing: -0.06em;
+      line-height: 1;
+      white-space: nowrap;
+      opacity: .96;
+      transition: opacity .14s ease;
+      text-shadow: 0 0 16px rgba(126,156,216,.14);
+    }
+    .year.fading{ opacity: .55; }
 
+    /* ===== your title page (kept) ===== */
+    #title-box {
+      height: 100vh;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
 
+      background: transparent;
+      color: var(--blue);
+      font-size: 5rem;
+    }
 
-                    <div class="timeline-item magenta" style="margin-top: 20%;">
-                        <div class="connector"></div>
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <h3>The Present</h3>
-                            <p>I've completed my first year at Warwick achieving the <b>2nd highest mark in my cohort</b>, and I'm about to start the <b>second year</b> of my 4-year degree. Recently, I've started grinding Codeforces to further my competitive programming skills, and have been learning more about web development. I plan on revisiting past areas to dig even deeper, and also expand my use of free & open source software - even if it means creating a free version myself. If you have enough motivation and ability to learn, you will <i>eventually</i> reach your goals - nothing can stop you!</p>
-                            <span class="date">09/2025</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <hr class="divider">
-        <section id="skills-box">
-            <h2>Technical Skills</h2>
+    #title-container {
+      display: inline-flex;
+      align-items: center;
+      position: relative;
 
-            <div id="skills-container">
-                <div id="skill-icons-box">
-                    <div class="skills-category language">
-                        <h3>Programming Languages</h3>
-                        <div class="skills-grid">
-                            <i class="devicon-python-plain" title="Python"></i>
-                            <i class="devicon-java-plain" title="Java"></i>
-                            <i class="devicon-haskell-plain" title="Haskell"></i>
-                            <i class="devicon-c-plain" title="C"></i>
-                            <i class="devicon-cplusplus-plain" title="C++"></i>
-                            <i class="devicon-rust-original" title="Rust"></i>
-                            <i class="devicon-javascript-plain" title="JavaScript"></i>
-                            <i class="devicon-typescript-plain" title="TypeScript"></i>
-                            <i class="devicon-lua-plain" title="Lua"></i>
-                        </div>
-                    </div>
+      padding-right: var(--title-hover-pad);
+      margin-left: var(--title-hover-pad);
+    }
 
-                    <div class="skills-category framework">
-                        <h3>Frameworks & Languages</h3>
-                        <div class="skills-grid">
-                            <i class="devicon-html5-plain" title="HTML5"></i>
-                            <i class="devicon-css3-plain" title="CSS3"></i>
-                            <i class="devicon-react-original" title="React"></i>
-                            <i class="devicon-express-original" title="Express"></i>
-                            <i class="devicon-nextjs-plain" title="Next.js"></i>
-                            <i class="devicon-markdown-original" title="Markdown"></i>
-                            <i class="devicon-latex-original" title="LaTeX"></i>
-                        </div>
-                    </div>
+    #title {
+      font-family: monospace;
+      font-size: 5rem;
+      background: transparent;
+      color: var(--blue);
+      border: none;
+      cursor: pointer;
+      user-select: none;
+      outline: none;
+      text-shadow:
+        0 0 12px rgba(126,156,216,.75),
+        0 0 28px rgba(149,127,184,.26),
+        0 0 44px rgba(126,156,216,.16);
+    }
 
-                    <div class="skills-category tool">
-                        <h3>Development & System Tools</h3>
-                        <div class="skills-grid">
-                            <i class="devicon-linux-plain" title="Linux"></i>
-                            <i class="devicon-bash-plain" title="Bash"></i>
-                            <i class="devicon-zsh-plain" title="Zsh"></i>
-                            <i class="devicon-git-plain" title="Git"></i>
-                            <i class="devicon-github-original" title="GitHub"></i>
-                            <i class="devicon-neovim-plain" title="Neovim"></i>
-                            <i class="devicon-vim-plain" title="Vim"></i>
-                            <i class="devicon-vscode-plain" title="VSCode"></i>
-                            <i class="devicon-nodejs-plain" title="Node.js"></i>
-                            <i class="devicon-apache-plain" title="Apache"></i>
-                            <i class="devicon-mysql-plain" title="MySQL"></i>
-                            <i class="devicon-mariadb-original", title="MariaDB"></i>
-                            <i class="devicon-mongodb-plain" title="MongoDB"></i>
-                            <i class="devicon-postgresql-plain" title="PostgreSQL"></i>
-                            <i class="devicon-docker-plain" title="Docker"></i>
-                        </div>
-                    </div>
-                </div>
-                <div id="skills-bio">
-                    <h3>More Info & Miscellaneous</h3>
-                    <p><b>Programming Languages:</b> I'm most proficient with Python (4 years), but I am semi-proficient in other languages like C, JavaScript, Java and Haskell. In addition, I know a bit of Verilog (no icon available)</p>
-                    <p><b>Frameworks:</b> I'm mostly a beginner with web-dev frameworks, but I also know PyQt for UI's and Qiskit for quantum computing.</p>
-                    <p><b>Systems:</b> Mostly decent with Linux (Ubuntu-based distros) and terminal skills. I also have skills in using QEMU/KVM for virtual machines, and GPG encryption.</p>
-                </div>
-            </div>
-        </section>
-        <hr class="divider">
-        <section id="challenges">
-            <h2>Coding Challenges</h2>
+    #info-button {
+      position:absolute;
+      top: 50%;
+      right: 0.25rem;
+      transform: translateY(-50%);
+      z-index: 20;
 
-            <div id="challenges-bio">
-                <p>One of my hobbies is doing <b>coding challenges</b> - whether it is a casual 11pm LeetCode session, or an early morning Advent of Code rush. Aside from <span class="orange">LeetCode</span> and <span class="orange">Codeforces</span>, I've also done <span class="orange">Advent of Code</span> 2022, 2023 & 2024, where I only attained all 50 stars in my lastest attempt. In addition, I've also done 123 problems on <span class="orange">Project Euler</span> to date, where I completed the first 100 in just 6 weeks. At the moment, I'm working towards <b><i>400</i></b> problems completed on LeetCode, and <b><i>100</i></b> problems completed on Codeforces.</p>
-            </div>
-            <div class="stats-box">
-                <div class="stats-card" data-label="LeetCode">
-                    <img alt="leetcode" src="https://leetcard.jacoblin.cool/bluetotkc?theme=dark&font=Rajdhani&height=290"/>
-                </div>
-                <div class="stats-card" data-label="Codeforces">
-                    <img alt="codeforces" src="https://codeforces-readme-stats.vercel.app/api/card?username=bluetotkc&theme=dark_lc&disable_animations=false&show_icons=true&force_username=true" />
-                </div>
-            </div>
-        </section>
-        <script src="./script.js"></script>
-    </body>
+      font-size: 1.75rem;
+      text-decoration: none;
+      color: var(--fg);
+      border-radius: 50%;
+      width: 2.5rem;
+      height: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.12s ease;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(220,215,186,.14);
+      backdrop-filter: blur(8px);
+    }
+
+    #title-container:hover #info-button {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(-50%) scale(1.02);
+    }
+
+    #social-icons {
+      margin-top: 1.5rem;
+      font-size: 2.5rem;
+      display: flex;
+      gap: 2rem;
+    }
+
+    #social-icons a {
+      color: var(--blue);
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    #social-icons a:hover {
+      color: var(--fg);
+      transform: translateY(-2px);
+    }
+
+    /* ===== timeline layout ===== */
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+    }
+
+    .grid{
+      display: grid;
+      grid-template-columns: var(--sidebarW) 1fr;
+      column-gap: var(--gap);
+      align-items: start;
+    }
+    .spacer{ /* empty */ }
+
+    /* spacer after hero so first card isn't visible at same time */
+    .after-hero-gap{
+      height: var(--after-hero-gap);
+    }
+
+    .timeline{
+      padding: 12px 0 160px;
+    }
+
+    .timeline-start{
+      position: relative;
+      height: 40px;
+    }
+    .timeline-start::before{
+      content:"";
+      position: absolute;
+      left: calc(-1 * var(--gap) - var(--lineX) - 5px);
+      top: 14px;
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: var(--blue);
+      box-shadow: 0 0 0 7px var(--dotGlow);
+    }
+
+    .entries{
+      display: grid;
+      gap: var(--entry-gap);
+      padding-top: 8px;
+    }
+
+    .entry{
+      position: relative;
+      scroll-margin-top: 120px;
+    }
+
+    /* extra spacing at year changes (added via JS) */
+    .entry.year-break{
+      margin-top: var(--year-break-gap);
+    }
+
+    /* extra spacing after About -> first numeric year */
+    .entry.after-about-break{
+      margin-top: var(--after-about-break-gap);
+    }
+
+    /* subtle divider line at year breaks */
+    .entry.year-break::after{
+      content:"";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(-0.5 * var(--year-break-gap));
+      height: 1px;
+      background: rgba(220,215,186,.10);
+    }
+
+    .entry::before{
+      content:"";
+      position: absolute;
+      left: calc(-1 * var(--gap) - var(--lineX) - 5px);
+      top: 26px;
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: var(--dot);
+      box-shadow: 0 0 0 6px var(--dotGlow);
+    }
+
+    .card{
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px 18px 16px;
+      box-shadow: 0 14px 40px rgba(0,0,0,.34);
+      backdrop-filter: blur(10px);
+    }
+
+    .card h3{
+      margin: 0 0 6px;
+      font-size: 1.05rem;
+      letter-spacing: -0.01em;
+      color: var(--fg);
+    }
+
+    .meta{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom: 12px;
+      font-size: 0.85rem;
+      align-items: center;
+      color: rgba(220,215,186,.72);
+    }
+
+    .tag{
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(220,215,186,.12);
+      background: rgba(255,255,255,.03);
+    }
+    .tag.blue{ border-color: rgba(126,156,216,.30); color: rgba(126,156,216,.95); }
+    .tag.violet{ border-color: rgba(149,127,184,.30); color: rgba(149,127,184,.95); }
+    .tag.green{ border-color: rgba(152,187,108,.30); color: rgba(152,187,108,.95); }
+    .tag.yellow{ border-color: rgba(230,195,132,.30); color: rgba(230,195,132,.95); }
+    .tag.orange{ border-color: rgba(255,160,102,.30); color: rgba(255,160,102,.95); }
+    .tag.red{ border-color: rgba(228,104,118,.30); color: rgba(228,104,118,.95); }
+
+    .date{
+      margin-left: auto;
+      color: rgba(220,215,186,.55);
+      font-size: 0.78rem;
+      letter-spacing: 0.02em;
+    }
+
+    .card p{
+      margin: 0;
+      color: rgba(220,215,186,.88);
+      line-height: 1.65;
+      font-size: 0.95rem;
+    }
+
+    /* About card w/ embed */
+    .embed{
+      margin-top: 14px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(220,215,186,.10);
+      background: rgba(255,255,255,.02);
+      aspect-ratio: 16 / 9;
+    }
+    .embed iframe, .embed video{
+      width: 100%;
+      height: 100%;
+      display: block;
+      border: 0;
+    }
+
+    /* Smaller “compressed year” cards */
+    .card.compact{
+      padding: 14px 16px 12px;
+      opacity: .92;
+    }
+    .card.compact h3{
+      font-size: 0.98rem;
+      margin-bottom: 4px;
+    }
+    .card.compact p{
+      font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      :root{
+        --sidebarW: 180px;
+        --gap: 28px;
+        --yearSize: 64px;
+        --lineX: 26px;
+
+        --after-hero-gap: 420px;
+        --entry-gap: 56px;
+        --year-break-gap: 90px;
+        --after-about-break-gap: 130px;
+      }
+      #title { font-size: 4rem; }
+      #title-box { font-size: 4rem; }
+    }
+
+    @media (max-width: 650px){
+      :root{
+        --sidebarW: 0px;
+        --gap: 0px;
+
+        --after-hero-gap: 320px;
+        --entry-gap: 44px;
+        --year-break-gap: 70px;
+        --after-about-break-gap: 90px;
+      }
+      .sidebar{ display:none; }
+      .grid{ grid-template-columns: 1fr; }
+      .timeline-start::before, .entry::before{ display:none; }
+      #title { font-size: 3.2rem; }
+      #title-box { font-size: 3.2rem; }
+      #title-container { padding-right: 2.6rem; margin-left: 2.6rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Fixed overlay year+line (hidden until timeline is active) -->
+  <div class="sidebar" id="sidebar" aria-hidden="true">
+    <div id="yearDisplay" class="year"></div>
+  </div>
+
+  <!-- TITLE PAGE (yours) -->
+  <section id="title-box">
+    <div id="title-container">
+      <button id="title"></button>
+      <a id="info-button" href="./special"><i class="fas fa-info-circle"></i></a>
+    </div>
+    <div id="social-icons">
+      <a href="https://github.com/BlueTot" target="_blank" rel="noreferrer"><i class="fab fa-github"></i></a>
+      <a href="https://www.linkedin.com/in/nok-hang-lo-2695a6282/" target="_blank" rel="noreferrer"><i class="fab fa-linkedin"></i></a>
+    </div>
+  </section>
+
+  <!-- Gap so timeline doesn't appear while hero is still visible -->
+  <div class="after-hero-gap" aria-hidden="true"></div>
+
+  <!-- TIMELINE -->
+  <main class="wrap">
+    <section class="timeline grid" id="timelineSection">
+      <div class="spacer"></div>
+
+      <div>
+        <div class="timeline-start" aria-hidden="true"></div>
+
+        <div class="entries">
+
+          <!-- ABOUT ME (before 2006) -->
+          <section class="entry" data-year="About">
+            <article class="card">
+              <h3>About me</h3>
+              <div class="meta">
+                <span class="tag blue">Systems</span>
+                <span class="tag violet">Engineering</span>
+                <span class="tag green">Projects</span>
+              </div>
+              <p>
+                Write your short intro here. This section appears before the year timeline starts.
+              </p>
+
+              <!-- LOCAL VIDEO OPTION (no YouTube needed): put about.mp4 in ./assets/ -->
+              <div class="embed">
+                <video controls preload="metadata">
+                  <source src="./assets/400.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            </article>
+          </section>
+
+          <!-- 2006 -->
+          <section class="entry" data-year="2006">
+            <article class="card compact">
+              <h3>2006</h3>
+              <div class="meta">
+                <span class="tag yellow">Born</span>
+                <span class="date">2006</span>
+              </div>
+              <p>Example placeholder — replace with your own content.</p>
+            </article>
+          </section>
+
+          <!-- Compressed years (fast-forward) -->
+          <section class="entry" data-year="2007"><article class="card compact"><h3>2007</h3><p>Compressed year.</p></article></section>
+          <section class="entry" data-year="2008"><article class="card compact"><h3>2008</h3><p>Compressed year.</p></article></section>
+          <section class="entry" data-year="2009"><article class="card compact"><h3>2009</h3><p>Compressed year.</p></article></section>
+
+          <!-- Fast years generated by JS: 2010..2021 (no hyphen) -->
+          <div id="fastYears"></div>
+
+          <!-- 2022..2026 -->
+          <section class="entry" data-year="2022">
+            <article class="card">
+              <h3>2022 — Starting to build seriously</h3>
+              <div class="meta">
+                <span class="tag green">Projects</span>
+                <span class="tag blue">Learning</span>
+                <span class="date">2022</span>
+              </div>
+              <p>Here you can start adding more boxes to “slow down” a year.</p>
+            </article>
+          </section>
+
+          <section class="entry" data-year="2023">
+            <article class="card">
+              <h3>2023 — Milestone A</h3>
+              <div class="meta">
+                <span class="tag violet">Topic</span>
+                <span class="tag blue">Tech</span>
+                <span class="date">2023</span>
+              </div>
+              <p>More detail.</p>
+            </article>
+          </section>
+
+          <section class="entry" data-year="2023">
+            <article class="card">
+              <h3>2023 — Milestone B</h3>
+              <div class="meta">
+                <span class="tag yellow">Achievement</span>
+                <span class="tag green">Impact</span>
+                <span class="date">2023</span>
+              </div>
+              <p>Second box means 2023 stays on screen longer.</p>
+            </article>
+          </section>
+
+          <section class="entry" data-year="2024">
+            <article class="card">
+              <h3>2024 — Something notable</h3>
+              <div class="meta">
+                <span class="tag blue">Systems</span>
+                <span class="tag yellow">Algorithms</span>
+                <span class="date">2024</span>
+              </div>
+              <p>Describe impact + what you learned.</p>
+            </article>
+          </section>
+
+          <section class="entry" data-year="2025">
+            <article class="card">
+              <h3>2025 — Formula Student / Cluster challenge</h3>
+              <div class="meta">
+                <span class="tag green">Kubernetes</span>
+                <span class="tag blue">Grafana</span>
+                <span class="tag red">Competition</span>
+                <span class="date">2025</span>
+              </div>
+              <p>Put your key wins here.</p>
+            </article>
+          </section>
+
+          <section class="entry" data-year="2026">
+            <article class="card">
+              <h3>2026 — Internship / next step</h3>
+              <div class="meta">
+                <span class="tag blue">Backend</span>
+                <span class="tag green">Observability</span>
+                <span class="tag orange">Scale</span>
+                <span class="date">2026</span>
+              </div>
+              <p>Wrap-up / current focus.</p>
+            </article>
+          </section>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // ===== Your flicker JS (kept) =====
+    let isAnimating = false;
+
+    async function show_flicker(word) {
+      if (isAnimating) return;
+      isAnimating = true;
+
+      const output = document.getElementById("title");
+      output.textContent = "";
+
+      const response = await fetch("./assets/probs.json");
+      const maxProbs = await response.json();
+
+      const asciiChars = Array.from({length: 128}, (_, i) => String.fromCharCode(i));
+      let iteration = 0;
+
+      function probs(iteration, targetIndex) {
+        const highProb = maxProbs[iteration];
+        const lowProb = (1 - highProb) / (asciiChars.length - 1);
+        return asciiChars.map((_, i) => i === targetIndex ? highProb : lowProb);
+      }
+
+      function weightedRandom(probs) {
+        const r = Math.random();
+        let acc = 0;
+        for (let i = 0; i < probs.length; i++) {
+          acc += probs[i];
+          if (r <= acc) return asciiChars[i];
+        }
+        return asciiChars[asciiChars.length - 1];
+      }
+
+      const iterTimer = setInterval(() => {
+        iteration++;
+        if (iteration > 12) clearInterval(iterTimer);
+      }, 250);
+
+      const outputTimer = setInterval(() => {
+        if (iteration > 12) {
+          output.textContent = word;
+          isAnimating = false;
+          clearInterval(outputTimer);
+          return;
+        }
+        output.textContent = [...word].map(
+          (_, index) => weightedRandom(probs(iteration, word.charCodeAt(index)))
+        ).join("");
+      }, 20);
+    }
+
+    document.getElementById("title").addEventListener(
+      "click", () => show_flicker("bluetot")
+    );
+    show_flicker("bluetot");
+
+    // ===== Fixed year show/hide + update (timeline only) + year-break spacing + fast years =====
+    (function () {
+      const sidebar = document.getElementById("sidebar");
+      const yearEl = document.getElementById("yearDisplay");
+      const timeline = document.getElementById("timelineSection");
+      if (!timeline) return;
+
+      // Generate fast years as individual entries (no hyphen)
+      const fastYearsHost = document.getElementById("fastYears");
+      if (fastYearsHost) {
+        for (let y = 2010; y <= 2021; y++) {
+          const sec = document.createElement("section");
+          sec.className = "entry";
+          sec.dataset.year = String(y);
+          sec.innerHTML = `
+            <article class="card compact">
+              <h3>${y}</h3>
+              <p>Compressed year.</p>
+            </article>
+          `;
+          fastYearsHost.appendChild(sec);
+        }
+      }
+
+      // Collect entries AFTER generation
+      const entries = Array.from(document.querySelectorAll(".entry[data-year]"));
+      if (!entries.length) return;
+
+      // Add spacing classes automatically where year changes
+      let prevYear = null;
+      for (const el of entries) {
+        const y = el.dataset.year;
+        if (prevYear !== null && y !== prevYear) el.classList.add("year-break");
+        prevYear = y;
+      }
+
+      // Extra spacing after About -> next entry
+      const aboutIndex = entries.findIndex(e => (e.dataset.year || "").toLowerCase() === "about");
+      if (aboutIndex !== -1 && entries[aboutIndex + 1]) {
+        entries[aboutIndex + 1].classList.add("after-about-break");
+      }
+
+      let active = false;
+      let currentYear = "";
+
+      function fadeSetYear(nextYear){
+        if (!nextYear || nextYear === currentYear) return;
+        currentYear = nextYear;
+        yearEl.classList.add("fading");
+        setTimeout(() => {
+          yearEl.textContent = nextYear;
+          yearEl.classList.remove("fading");
+        }, 90);
+      }
+
+      // Robust year selection: last entry whose top has crossed a marker line.
+      // Also snaps to the last entry at the bottom so it always reaches 2026.
+      function pickYearAtMarker(){
+        const markerY = window.innerHeight * 0.45;
+
+        // If at bottom (or extremely near), force last year
+        const doc = document.documentElement;
+        if (window.scrollY + window.innerHeight >= doc.scrollHeight - 4) {
+          fadeSetYear(entries[entries.length - 1].dataset.year);
+          return;
+        }
+
+        let candidate = entries[0];
+        for (const el of entries) {
+          const r = el.getBoundingClientRect();
+          if (r.top <= markerY) candidate = el;
+          else break;
+        }
+        fadeSetYear(candidate.dataset.year);
+      }
+
+      function computeActive(){
+        const r = timeline.getBoundingClientRect();
+        const y = window.innerHeight * 0.45;
+        return (r.top <= y) && (r.bottom >= y);
+      }
+
+      let ticking = false;
+      function onScrollOrResize(){
+        if (ticking) return;
+        ticking = true;
+
+        requestAnimationFrame(() => {
+          ticking = false;
+
+          const nextActive = computeActive();
+          if (nextActive !== active) {
+            active = nextActive;
+            sidebar.classList.toggle("active", active);
+
+            if (!active) {
+              yearEl.textContent = "";
+              currentYear = "";
+            } else {
+              pickYearAtMarker();
+            }
+          }
+
+          if (active) pickYearAtMarker();
+        });
+      }
+
+      window.addEventListener("scroll", onScrollOrResize, { passive: true });
+      window.addEventListener("resize", onScrollOrResize);
+      onScrollOrResize();
+    })();
+  </script>
+</body>
 </html>
 
