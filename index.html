@@ -738,48 +738,37 @@
                 }, 90);
             }
 
-            // Robust year selection: last entry whose top has crossed a marker line.
-            // Also snaps to the last entry at the bottom so it always reaches 2026.
             function pickYearAtMarker(){
-                const markerY = window.innerHeight * 1;
+                const markerY = window.innerHeight * 0.55; // ✅ switch later (try 0.50–0.65)
 
-                // If at bottom (or extremely near), force last year
+                // bottom snap (keep)
                 const doc = document.documentElement;
                 if (window.scrollY + window.innerHeight >= doc.scrollHeight - 4) {
                     fadeSetYear(entries[entries.length - 1].dataset.year);
                     return;
                 }
 
-                // let candidate = entries[0];
-                // for (const el of entries) {
-                //     const r = el.getBoundingClientRect();
-                //     if (r.top <= markerY) candidate = el;
-                //         else break;
-                // }
-                // fadeSetYear(candidate.dataset.year);
-
-
                 let candidate = entries[0];
                 for (const el of entries) {
                     const r = el.getBoundingClientRect();
 
-                    // NORMAL entries: switch when their TOP crosses marker
-                    // GHOST entries: switch when their CENTER crosses marker (prevents early flip)
+                    // ✅ Normal entries: switch when BOTTOM crosses marker (prevents early switch)
+                    // ✅ Ghost entries: switch when CENTER crosses marker (smooth ticking)
                     const triggerY = el.classList.contains("ghost")
                         ? (r.top + r.bottom) / 2
-                        : r.top;
+                        : r.bottom;
 
                     if (triggerY <= markerY) candidate = el;
                         else break;
                 }
+
                 fadeSetYear(candidate.dataset.year);
-
-
             }
+
 
             function computeActive(){
                 const r = timeline.getBoundingClientRect();
-                const y = window.innerHeight * 1;
+                const y = window.innerHeight * 0.80; // ✅ show sidebar earlier (try 0.70–0.90)
                 return (r.top <= y) && (r.bottom >= y);
             }
 
