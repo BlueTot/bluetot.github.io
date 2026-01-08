@@ -1,737 +1,818 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>BlueTot — Kanagawa Timeline</title>
-
-  <!-- Font Awesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
-  <style>
-    /* ===== Dark Kanagawa-ish palette (wave, darker) ===== */
-    :root{
-      /* darker base */
-      --bg: #0b0d12;
-      --bg2:#0f1118;
-      --fg: #DCD7BA;
-      --muted: rgba(220,215,186,.70);
-
-      /* accents (Kanagawa-like) */
-      --blue: #7E9CD8;
-      --violet:#957FB8;
-      --green:#98BB6C;
-      --yellow:#E6C384;
-      --orange:#FFA066;
-      --red: #E46876;
-
-      /* surfaces */
-      --panel: rgba(14, 16, 24, 0.78);
-      --border: rgba(220,215,186,.12);
-
-      /* timeline geometry */
-      --max: 1120px;
-      --pad: 20px;
-
-      --sidebarW: 220px;
-      --gap: 44px;
-
-      --yearSize: 86px;
-      --lineX: 34px;
-
-      --line: rgba(220,215,186,.16);
-      --dotGlow: rgba(126,156,216,.14);
-      --dot: rgba(220,215,186,.95);
-
-      /* title hover offset for info icon */
-      --title-hover-pad: 3.5rem;
-
-      /* spacing between hero and timeline start */
-      --after-hero-gap: 620px;
-
-      /* global entry spacing + year-change spacing */
-      --entry-gap: 70px;
-      --year-break-gap: 110px;
-      --after-about-break-gap: 170px;
-    }
-
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body{
-      margin: 0;
-      font-family: monospace;
-      color: var(--fg);
-      background: var(--bg);
-      overflow-x: hidden;
-    }
-
-    /* Static dark background for whole page */
-    body::before{
-      content:"";
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      background:
-        radial-gradient(1200px 700px at 15% -10%, rgba(126,156,216,.10), transparent 55%),
-        radial-gradient(1000px 650px at 90% 20%, rgba(149,127,184,.08), transparent 60%),
-        radial-gradient(900px 600px at 55% 110%, rgba(152,187,108,.06), transparent 60%),
-        linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.20)),
-        var(--bg);
-    }
-
-    /* ===== Fixed overlay year+line ===== */
-    .sidebar{
-      position: fixed;
-      top: 0;
-      bottom: 0;
-
-      left: max(var(--pad), calc(50% - (var(--max) / 2) + var(--pad)));
-      width: var(--sidebarW);
-
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity .25s ease;
-    }
-    .sidebar.active{ opacity: 1; }
-
-    .sidebar::after{
-      content:"";
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: calc(var(--sidebarW) - (var(--lineX)));
-      width: 2px;
-      background: var(--line);
-      border-radius: 999px;
-    }
-
-    .year{
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      font-weight: 900;
-      font-size: var(--yearSize);
-      letter-spacing: -0.06em;
-      line-height: 1;
-      white-space: nowrap;
-      opacity: .96;
-      transition: opacity .14s ease;
-      text-shadow: 0 0 16px rgba(126,156,216,.14);
-    }
-    .year.fading{ opacity: .55; }
-
-    /* ===== your title page (kept) ===== */
-    #title-box {
-      height: 100vh;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-
-      background: transparent;
-      color: var(--blue);
-      font-size: 5rem;
-    }
-
-    #title-container {
-      display: inline-flex;
-      align-items: center;
-      position: relative;
-
-      padding-right: var(--title-hover-pad);
-      margin-left: var(--title-hover-pad);
-    }
-
-    #title {
-      font-family: monospace;
-      font-size: 5rem;
-      background: transparent;
-      color: var(--blue);
-      border: none;
-      cursor: pointer;
-      user-select: none;
-      outline: none;
-      text-shadow:
-        0 0 12px rgba(126,156,216,.75),
-        0 0 28px rgba(149,127,184,.26),
-        0 0 44px rgba(126,156,216,.16);
-    }
-
-    #info-button {
-      position:absolute;
-      top: 50%;
-      right: 0.25rem;
-      transform: translateY(-50%);
-      z-index: 20;
-
-      font-size: 1.75rem;
-      text-decoration: none;
-      color: var(--fg);
-      border-radius: 50%;
-      width: 2.5rem;
-      height: 2.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s ease, transform 0.12s ease;
-      background: rgba(255,255,255,.03);
-      border: 1px solid rgba(220,215,186,.14);
-      backdrop-filter: blur(8px);
-    }
-
-    #title-container:hover #info-button {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(-50%) scale(1.02);
-    }
-
-    #social-icons {
-      margin-top: 1.5rem;
-      font-size: 2.5rem;
-      display: flex;
-      gap: 2rem;
-    }
-
-    #social-icons a {
-      color: var(--blue);
-      transition: color 0.2s ease, transform 0.2s ease;
-    }
-
-    #social-icons a:hover {
-      color: var(--fg);
-      transform: translateY(-2px);
-    }
-
-    /* ===== timeline layout ===== */
-    .wrap{
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 0 var(--pad);
-    }
-
-    .grid{
-      display: grid;
-      grid-template-columns: var(--sidebarW) 1fr;
-      column-gap: var(--gap);
-      align-items: start;
-    }
-    .spacer{ /* empty */ }
-
-    /* spacer after hero so first card isn't visible at same time */
-    .after-hero-gap{
-      height: var(--after-hero-gap);
-    }
-
-    .timeline{
-      padding: 12px 0 160px;
-    }
-
-    .timeline-start{
-      position: relative;
-      height: 40px;
-    }
-    .timeline-start::before{
-      content:"";
-      position: absolute;
-      left: calc(-1 * var(--gap) - var(--lineX) - 5px);
-      top: 14px;
-      width: 12px;
-      height: 12px;
-      border-radius: 999px;
-      background: var(--blue);
-      box-shadow: 0 0 0 7px var(--dotGlow);
-    }
-
-    .entries{
-      display: grid;
-      gap: var(--entry-gap);
-      padding-top: 8px;
-    }
-
-    .entry{
-      position: relative;
-      scroll-margin-top: 120px;
-    }
-
-    /* extra spacing at year changes (added via JS) */
-    .entry.year-break{
-      margin-top: var(--year-break-gap);
-    }
-
-    /* extra spacing after About -> first numeric year */
-    .entry.after-about-break{
-      margin-top: var(--after-about-break-gap);
-    }
-
-    /* subtle divider line at year breaks */
-    .entry.year-break::after{
-      content:"";
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: calc(-0.5 * var(--year-break-gap));
-      height: 1px;
-      background: rgba(220,215,186,.10);
-    }
-
-    .entry::before{
-      content:"";
-      position: absolute;
-      left: calc(-1 * var(--gap) - var(--lineX) - 5px);
-      top: 26px;
-      width: 12px;
-      height: 12px;
-      border-radius: 999px;
-      background: var(--dot);
-      box-shadow: 0 0 0 6px var(--dotGlow);
-    }
-
-    .card{
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 18px 18px 16px;
-      box-shadow: 0 14px 40px rgba(0,0,0,.34);
-      backdrop-filter: blur(10px);
-    }
-
-    .card h3{
-      margin: 0 0 6px;
-      font-size: 1.05rem;
-      letter-spacing: -0.01em;
-      color: var(--fg);
-    }
-
-    .meta{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-bottom: 12px;
-      font-size: 0.85rem;
-      align-items: center;
-      color: rgba(220,215,186,.72);
-    }
-
-    .tag{
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(220,215,186,.12);
-      background: rgba(255,255,255,.03);
-    }
-    .tag.blue{ border-color: rgba(126,156,216,.30); color: rgba(126,156,216,.95); }
-    .tag.violet{ border-color: rgba(149,127,184,.30); color: rgba(149,127,184,.95); }
-    .tag.green{ border-color: rgba(152,187,108,.30); color: rgba(152,187,108,.95); }
-    .tag.yellow{ border-color: rgba(230,195,132,.30); color: rgba(230,195,132,.95); }
-    .tag.orange{ border-color: rgba(255,160,102,.30); color: rgba(255,160,102,.95); }
-    .tag.red{ border-color: rgba(228,104,118,.30); color: rgba(228,104,118,.95); }
-
-    .date{
-      margin-left: auto;
-      color: rgba(220,215,186,.55);
-      font-size: 0.78rem;
-      letter-spacing: 0.02em;
-    }
-
-    .card p{
-      margin: 0;
-      color: rgba(220,215,186,.88);
-      line-height: 1.65;
-      font-size: 0.95rem;
-    }
-
-    /* About card w/ embed */
-    .embed{
-      margin-top: 14px;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid rgba(220,215,186,.10);
-      background: rgba(255,255,255,.02);
-      aspect-ratio: 16 / 9;
-    }
-    .embed iframe, .embed video{
-      width: 100%;
-      height: 100%;
-      display: block;
-      border: 0;
-    }
-
-    /* Smaller “compressed year” cards */
-    .card.compact{
-      padding: 14px 16px 12px;
-      opacity: .92;
-    }
-    .card.compact h3{
-      font-size: 0.98rem;
-      margin-bottom: 4px;
-    }
-    .card.compact p{
-      font-size: 0.9rem;
-    }
-
-    /* Responsive */
-    @media (max-width: 980px){
-      :root{
-        --sidebarW: 180px;
-        --gap: 28px;
-        --yearSize: 64px;
-        --lineX: 26px;
-
-        --after-hero-gap: 420px;
-        --entry-gap: 56px;
-        --year-break-gap: 90px;
-        --after-about-break-gap: 130px;
-      }
-      #title { font-size: 4rem; }
-      #title-box { font-size: 4rem; }
-    }
-
-    @media (max-width: 650px){
-      :root{
-        --sidebarW: 0px;
-        --gap: 0px;
-
-        --after-hero-gap: 320px;
-        --entry-gap: 44px;
-        --year-break-gap: 70px;
-        --after-about-break-gap: 90px;
-      }
-      .sidebar{ display:none; }
-      .grid{ grid-template-columns: 1fr; }
-      .timeline-start::before, .entry::before{ display:none; }
-      #title { font-size: 3.2rem; }
-      #title-box { font-size: 3.2rem; }
-      #title-container { padding-right: 2.6rem; margin-left: 2.6rem; }
-    }
-  </style>
-</head>
-
-<body>
-  <!-- Fixed overlay year+line (hidden until timeline is active) -->
-  <div class="sidebar" id="sidebar" aria-hidden="true">
-    <div id="yearDisplay" class="year"></div>
-  </div>
-
-  <!-- TITLE PAGE (yours) -->
-  <section id="title-box">
-    <div id="title-container">
-      <button id="title"></button>
-      <a id="info-button" href="./special"><i class="fas fa-info-circle"></i></a>
-    </div>
-    <div id="social-icons">
-      <a href="https://github.com/BlueTot" target="_blank" rel="noreferrer"><i class="fab fa-github"></i></a>
-      <a href="https://www.linkedin.com/in/nok-hang-lo-2695a6282/" target="_blank" rel="noreferrer"><i class="fab fa-linkedin"></i></a>
-    </div>
-  </section>
-
-  <!-- Gap so timeline doesn't appear while hero is still visible -->
-  <div class="after-hero-gap" aria-hidden="true"></div>
-
-  <!-- TIMELINE -->
-  <main class="wrap">
-    <section class="timeline grid" id="timelineSection">
-      <div class="spacer"></div>
-
-      <div>
-        <div class="timeline-start" aria-hidden="true"></div>
-
-        <div class="entries">
-
-          <!-- ABOUT ME (before 2006) -->
-          <section class="entry" data-year="About">
-            <article class="card">
-              <h3>About me</h3>
-              <div class="meta">
-                <span class="tag blue">Systems</span>
-                <span class="tag violet">Engineering</span>
-                <span class="tag green">Projects</span>
-              </div>
-              <p>
-                Write your short intro here. This section appears before the year timeline starts.
-              </p>
-
-              <!-- LOCAL VIDEO OPTION (no YouTube needed): put about.mp4 in ./assets/ -->
-              <div class="embed">
-                <video controls preload="metadata">
-                  <source src="./assets/400.mp4" type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              </div>
-            </article>
-          </section>
-
-          <!-- 2006 -->
-          <section class="entry" data-year="2006">
-            <article class="card compact">
-              <h3>2006</h3>
-              <div class="meta">
-                <span class="tag yellow">Born</span>
-                <span class="date">2006</span>
-              </div>
-              <p>Example placeholder — replace with your own content.</p>
-            </article>
-          </section>
-
-          <!-- Compressed years (fast-forward) -->
-          <section class="entry" data-year="2007"><article class="card compact"><h3>2007</h3><p>Compressed year.</p></article></section>
-          <section class="entry" data-year="2008"><article class="card compact"><h3>2008</h3><p>Compressed year.</p></article></section>
-          <section class="entry" data-year="2009"><article class="card compact"><h3>2009</h3><p>Compressed year.</p></article></section>
-
-          <!-- Fast years generated by JS: 2010..2021 (no hyphen) -->
-          <div id="fastYears"></div>
-
-          <!-- 2022..2026 -->
-          <section class="entry" data-year="2022">
-            <article class="card">
-              <h3>2022 — Starting to build seriously</h3>
-              <div class="meta">
-                <span class="tag green">Projects</span>
-                <span class="tag blue">Learning</span>
-                <span class="date">2022</span>
-              </div>
-              <p>Here you can start adding more boxes to “slow down” a year.</p>
-            </article>
-          </section>
-
-          <section class="entry" data-year="2023">
-            <article class="card">
-              <h3>2023 — Milestone A</h3>
-              <div class="meta">
-                <span class="tag violet">Topic</span>
-                <span class="tag blue">Tech</span>
-                <span class="date">2023</span>
-              </div>
-              <p>More detail.</p>
-            </article>
-          </section>
-
-          <section class="entry" data-year="2023">
-            <article class="card">
-              <h3>2023 — Milestone B</h3>
-              <div class="meta">
-                <span class="tag yellow">Achievement</span>
-                <span class="tag green">Impact</span>
-                <span class="date">2023</span>
-              </div>
-              <p>Second box means 2023 stays on screen longer.</p>
-            </article>
-          </section>
-
-          <section class="entry" data-year="2024">
-            <article class="card">
-              <h3>2024 — Something notable</h3>
-              <div class="meta">
-                <span class="tag blue">Systems</span>
-                <span class="tag yellow">Algorithms</span>
-                <span class="date">2024</span>
-              </div>
-              <p>Describe impact + what you learned.</p>
-            </article>
-          </section>
-
-          <section class="entry" data-year="2025">
-            <article class="card">
-              <h3>2025 — Formula Student / Cluster challenge</h3>
-              <div class="meta">
-                <span class="tag green">Kubernetes</span>
-                <span class="tag blue">Grafana</span>
-                <span class="tag red">Competition</span>
-                <span class="date">2025</span>
-              </div>
-              <p>Put your key wins here.</p>
-            </article>
-          </section>
-
-          <section class="entry" data-year="2026">
-            <article class="card">
-              <h3>2026 — Internship / next step</h3>
-              <div class="meta">
-                <span class="tag blue">Backend</span>
-                <span class="tag green">Observability</span>
-                <span class="tag orange">Scale</span>
-                <span class="date">2026</span>
-              </div>
-              <p>Wrap-up / current focus.</p>
-            </article>
-          </section>
-
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <script>
-    // ===== Your flicker JS (kept) =====
-    let isAnimating = false;
-
-    async function show_flicker(word) {
-      if (isAnimating) return;
-      isAnimating = true;
-
-      const output = document.getElementById("title");
-      output.textContent = "";
-
-      const response = await fetch("./assets/probs.json");
-      const maxProbs = await response.json();
-
-      const asciiChars = Array.from({length: 128}, (_, i) => String.fromCharCode(i));
-      let iteration = 0;
-
-      function probs(iteration, targetIndex) {
-        const highProb = maxProbs[iteration];
-        const lowProb = (1 - highProb) / (asciiChars.length - 1);
-        return asciiChars.map((_, i) => i === targetIndex ? highProb : lowProb);
-      }
-
-      function weightedRandom(probs) {
-        const r = Math.random();
-        let acc = 0;
-        for (let i = 0; i < probs.length; i++) {
-          acc += probs[i];
-          if (r <= acc) return asciiChars[i];
-        }
-        return asciiChars[asciiChars.length - 1];
-      }
-
-      const iterTimer = setInterval(() => {
-        iteration++;
-        if (iteration > 12) clearInterval(iterTimer);
-      }, 250);
-
-      const outputTimer = setInterval(() => {
-        if (iteration > 12) {
-          output.textContent = word;
-          isAnimating = false;
-          clearInterval(outputTimer);
-          return;
-        }
-        output.textContent = [...word].map(
-          (_, index) => weightedRandom(probs(iteration, word.charCodeAt(index)))
-        ).join("");
-      }, 20);
-    }
-
-    document.getElementById("title").addEventListener(
-      "click", () => show_flicker("bluetot")
-    );
-    show_flicker("bluetot");
-
-    // ===== Fixed year show/hide + update (timeline only) + year-break spacing + fast years =====
-    (function () {
-      const sidebar = document.getElementById("sidebar");
-      const yearEl = document.getElementById("yearDisplay");
-      const timeline = document.getElementById("timelineSection");
-      if (!timeline) return;
-
-      // Generate fast years as individual entries (no hyphen)
-      const fastYearsHost = document.getElementById("fastYears");
-      if (fastYearsHost) {
-        for (let y = 2010; y <= 2021; y++) {
-          const sec = document.createElement("section");
-          sec.className = "entry";
-          sec.dataset.year = String(y);
-          sec.innerHTML = `
-            <article class="card compact">
-              <h3>${y}</h3>
-              <p>Compressed year.</p>
-            </article>
-          `;
-          fastYearsHost.appendChild(sec);
-        }
-      }
-
-      // Collect entries AFTER generation
-      const entries = Array.from(document.querySelectorAll(".entry[data-year]"));
-      if (!entries.length) return;
-
-      // Add spacing classes automatically where year changes
-      let prevYear = null;
-      for (const el of entries) {
-        const y = el.dataset.year;
-        if (prevYear !== null && y !== prevYear) el.classList.add("year-break");
-        prevYear = y;
-      }
-
-      // Extra spacing after About -> next entry
-      const aboutIndex = entries.findIndex(e => (e.dataset.year || "").toLowerCase() === "about");
-      if (aboutIndex !== -1 && entries[aboutIndex + 1]) {
-        entries[aboutIndex + 1].classList.add("after-about-break");
-      }
-
-      let active = false;
-      let currentYear = "";
-
-      function fadeSetYear(nextYear){
-        if (!nextYear || nextYear === currentYear) return;
-        currentYear = nextYear;
-        yearEl.classList.add("fading");
-        setTimeout(() => {
-          yearEl.textContent = nextYear;
-          yearEl.classList.remove("fading");
-        }, 90);
-      }
-
-      // Robust year selection: last entry whose top has crossed a marker line.
-      // Also snaps to the last entry at the bottom so it always reaches 2026.
-      function pickYearAtMarker(){
-        const markerY = window.innerHeight * 0.45;
-
-        // If at bottom (or extremely near), force last year
-        const doc = document.documentElement;
-        if (window.scrollY + window.innerHeight >= doc.scrollHeight - 4) {
-          fadeSetYear(entries[entries.length - 1].dataset.year);
-          return;
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>BlueTot's Site</title>
+
+        <!-- Font Awesome for icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+        <style>
+        /* ===== Dark Kanagawa-ish palette (wave, darker) ===== */
+        :root{
+            /* darker base */
+            --bg: #0b0d12;
+            --bg2:#0f1118;
+            --fg: #DCD7BA;
+            --muted: rgba(220,215,186,.70);
+
+            /* accents (Kanagawa-like) */
+            --blue: #7E9CD8;
+            --violet:#957FB8;
+            --green:#98BB6C;
+            --yellow:#E6C384;
+            --orange:#FFA066;
+            --red: #E46876;
+
+            /* surfaces */
+            --panel: rgba(14, 16, 24, 0.78);
+            --border: rgba(220,215,186,.12);
+
+            /* timeline geometry */
+            --max: 1120px;
+            --pad: 20px;
+
+            --sidebarW: 220px;
+            --gap: 44px;
+
+            --yearSize: 86px;
+            --lineX: 34px;
+
+            --line: rgba(220,215,186,.16);
+            --dotGlow: rgba(126,156,216,.14);
+            --dot: rgba(220,215,186,.95);
+
+            /* title hover offset for info icon */
+            --title-hover-pad: 3.5rem;
+
+            /* spacing between hero and timeline start */
+            --after-hero-gap: 620px;
+
+            /* global entry spacing + year-change spacing */
+            --entry-gap: 120px;
+            --year-break-gap: 110px;
+            --after-about-break-gap: 170px;
+
+            --ghost-height: 80px; /* bigger = slower */
+            --ghost-gap: 28px;    /* bigger = slower */
         }
 
-        let candidate = entries[0];
-        for (const el of entries) {
-          const r = el.getBoundingClientRect();
-          if (r.top <= markerY) candidate = el;
-          else break;
+        * { box-sizing: border-box; }
+        html, body { height: 100%; }
+        body{
+            margin: 0;
+            font-family: monospace;
+            color: var(--fg);
+            background: var(--bg);
+            overflow-x: hidden;
         }
-        fadeSetYear(candidate.dataset.year);
-      }
 
-      function computeActive(){
-        const r = timeline.getBoundingClientRect();
-        const y = window.innerHeight * 0.45;
-        return (r.top <= y) && (r.bottom >= y);
-      }
+        /* Static dark background for whole page */
+        body::before{
+            content:"";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background:
+                radial-gradient(1200px 700px at 15% -10%, rgba(126,156,216,.10), transparent 55%),
+                radial-gradient(1000px 650px at 90% 20%, rgba(149,127,184,.08), transparent 60%),
+                radial-gradient(900px 600px at 55% 110%, rgba(152,187,108,.06), transparent 60%),
+                linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.20)),
+                var(--bg);
+        }
 
-      let ticking = false;
-      function onScrollOrResize(){
-        if (ticking) return;
-        ticking = true;
+        /* ===== Fixed overlay year+line ===== */
+        .sidebar{
+            position: fixed;
+            top: 0;
+            bottom: 0;
 
-        requestAnimationFrame(() => {
-          ticking = false;
+            left: max(var(--pad), calc(50% - (var(--max) / 2) + var(--pad)));
+            width: var(--sidebarW);
 
-          const nextActive = computeActive();
-          if (nextActive !== active) {
-            active = nextActive;
-            sidebar.classList.toggle("active", active);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity .25s ease;
+        }
+        .sidebar.active{ opacity: 1; }
 
-            if (!active) {
-              yearEl.textContent = "";
-              currentYear = "";
-            } else {
-              pickYearAtMarker();
+        .sidebar::after{
+            content:"";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: calc(var(--sidebarW) - (var(--lineX)));
+            width: 2px;
+            background: var(--line);
+            border-radius: 999px;
+        }
+
+        .year{
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: 900;
+            font-size: var(--yearSize);
+            letter-spacing: -0.06em;
+            line-height: 1;
+            white-space: nowrap;
+            opacity: .96;
+            transition: opacity .14s ease;
+            text-shadow: 0 0 16px rgba(126,156,216,.14);
+        }
+        .year.fading{ opacity: .55; }
+
+        /* ===== your title page (kept) ===== */
+        #title-box {
+            height: 100vh;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            background: transparent;
+            color: var(--blue);
+            font-size: 5rem;
+        }
+
+        #title-container {
+            display: inline-flex;
+            align-items: center;
+            position: relative;
+
+            padding-right: var(--title-hover-pad);
+            margin-left: var(--title-hover-pad);
+        }
+
+        #title {
+            font-family: monospace;
+            font-size: 5rem;
+            background: transparent;
+            color: var(--blue);
+            border: none;
+            cursor: pointer;
+            user-select: none;
+            outline: none;
+            text-shadow:
+                0 0 12px rgba(126,156,216,.75),
+                0 0 28px rgba(149,127,184,.26),
+                0 0 44px rgba(126,156,216,.16);
+        }
+
+        #info-button {
+            position:absolute;
+            top: 50%;
+            right: 0.25rem;
+            transform: translateY(-50%);
+            z-index: 20;
+
+            font-size: 1.75rem;
+            text-decoration: none;
+            color: var(--fg);
+            border-radius: 50%;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.12s ease;
+            background: rgba(255,255,255,.03);
+            border: 1px solid rgba(220,215,186,.14);
+            backdrop-filter: blur(8px);
+        }
+
+        #title-container:hover #info-button {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(-50%) scale(1.02);
+        }
+
+        #social-icons {
+            margin-top: 1.5rem;
+            font-size: 2.5rem;
+            display: flex;
+            gap: 2rem;
+        }
+
+        #social-icons a {
+            color: var(--blue);
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        #social-icons a:hover {
+            color: var(--fg);
+            transform: translateY(-2px);
+        }
+
+        /* ===== timeline layout ===== */
+        .wrap{
+            max-width: var(--max);
+            margin: 0 auto;
+            padding: 0 var(--pad);
+        }
+
+        .grid{
+            display: grid;
+            grid-template-columns: var(--sidebarW) 1fr;
+            column-gap: var(--gap);
+            align-items: start;
+        }
+        .spacer{ /* empty */ }
+
+        /* spacer after hero so first card isn't visible at same time */
+        .after-hero-gap{
+            height: var(--after-hero-gap);
+        }
+
+        .timeline{
+            padding: 12px 0 160px;
+        }
+
+        .timeline-start{
+            position: relative;
+            height: 40px;
+        }
+        .timeline-start::before{
+            content:"";
+            position: absolute;
+            left: calc(-1 * var(--gap) - var(--lineX) - 5px);
+            top: 14px;
+            width: 12px;
+            height: 12px;
+            border-radius: 999px;
+            background: var(--blue);
+            box-shadow: 0 0 0 7px var(--dotGlow);
+        }
+
+        .entries{
+            display: grid;
+            gap: var(--entry-gap);
+            padding-top: 8px;
+        }
+
+        .entry{
+            position: relative;
+            scroll-margin-top: 120px;
+        }
+
+        /* extra spacing at year changes (added via JS) */
+        .entry.year-break{
+            margin-top: var(--year-break-gap);
+        }
+
+        /* extra spacing after About -> first numeric year */
+        .entry.after-about-break{
+            margin-top: var(--after-about-break-gap);
+        }
+
+        /* subtle divider line at year breaks */
+        .entry.year-break::after{
+            content:"";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: calc(-0.5 * var(--year-break-gap));
+            height: 1px;
+            background: rgba(220,215,186,.10);
+        }
+
+        .entry::before{
+            content:"";
+            position: absolute;
+            left: calc(-1 * var(--gap) - var(--lineX) - 5px);
+            top: 26px;
+            width: 12px;
+            height: 12px;
+            border-radius: 999px;
+            background: var(--dot);
+            box-shadow: 0 0 0 6px var(--dotGlow);
+        }
+
+        .card{
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 18px 18px 16px;
+            box-shadow: 0 14px 40px rgba(0,0,0,.34);
+            backdrop-filter: blur(10px);
+        }
+
+        .card h3{
+            margin: 0 0 6px;
+            font-size: 1.05rem;
+            letter-spacing: -0.01em;
+            color: var(--fg);
+        }
+
+        .meta{
+            display:flex;
+            gap:10px;
+            flex-wrap:wrap;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+            align-items: center;
+            color: rgba(220,215,186,.72);
+        }
+
+        .tag{
+            padding: 4px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(220,215,186,.12);
+            background: rgba(255,255,255,.03);
+        }
+        .tag.blue{ border-color: rgba(126,156,216,.30); color: rgba(126,156,216,.95); }
+        .tag.violet{ border-color: rgba(149,127,184,.30); color: rgba(149,127,184,.95); }
+        .tag.green{ border-color: rgba(152,187,108,.30); color: rgba(152,187,108,.95); }
+        .tag.yellow{ border-color: rgba(230,195,132,.30); color: rgba(230,195,132,.95); }
+        .tag.orange{ border-color: rgba(255,160,102,.30); color: rgba(255,160,102,.95); }
+        .tag.red{ border-color: rgba(228,104,118,.30); color: rgba(228,104,118,.95); }
+
+        .date{
+            margin-left: auto;
+            color: rgba(220,215,186,.55);
+            font-size: 0.78rem;
+            letter-spacing: 0.02em;
+        }
+
+        .card p{
+            margin: 0;
+            color: rgba(220,215,186,.88);
+            line-height: 1.65;
+            font-size: 0.95rem;
+        }
+
+        /* About card w/ embed */
+        .embed{
+            margin-top: 14px;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(220,215,186,.10);
+            background: rgba(255,255,255,.02);
+            aspect-ratio: 16 / 9;
+        }
+        .embed iframe, .embed video{
+            width: 100%;
+            height: 100%;
+            display: block;
+            border: 0;
+        }
+
+        /* Smaller “compressed year” cards */
+        .card.compact{
+            padding: 14px 16px 12px;
+            opacity: .92;
+        }
+        .card.compact h3{
+            font-size: 0.98rem;
+            margin-bottom: 4px;
+        }
+        .card.compact p{
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 980px){
+            :root{
+                --sidebarW: 180px;
+                --gap: 28px;
+                --yearSize: 64px;
+                --lineX: 26px;
+
+                --after-hero-gap: 420px;
+                --entry-gap: 56px;
+                --year-break-gap: 90px;
+                --after-about-break-gap: 130px;
             }
-          }
+            #title { font-size: 4rem; }
+            #title-box { font-size: 4rem; }
+        }
 
-          if (active) pickYearAtMarker();
-        });
-      }
+        @media (max-width: 650px){
+            :root{
+                --sidebarW: 0px;
+                --gap: 0px;
 
-      window.addEventListener("scroll", onScrollOrResize, { passive: true });
-      window.addEventListener("resize", onScrollOrResize);
-      onScrollOrResize();
-    })();
-  </script>
-</body>
+                --after-hero-gap: 320px;
+                --entry-gap: 44px;
+                --year-break-gap: 70px;
+                --after-about-break-gap: 90px;
+            }
+            .sidebar{ display:none; }
+            .grid{ grid-template-columns: 1fr; }
+            .timeline-start::before, .entry::before{ display:none; }
+            #title { font-size: 3.2rem; }
+            #title-box { font-size: 3.2rem; }
+            #title-container { padding-right: 2.6rem; margin-left: 2.6rem; }
+        }
+
+        .bluetext {
+            color: var(--blue);
+        }
+
+        .violettext {
+            color: var(--violet);
+        }
+
+        .greentext {
+            color: var(--green);
+        }
+
+        .yellowtext {
+            color: var(--yellow);
+        }
+
+        .orangetext {
+            color: var(--orange);
+        }
+
+        .redtext {
+            color: var(--red);
+        }
+
+        .ghost-years{
+            display: grid;
+            gap: var(--ghost-gap);
+            margin-top: 18px;
+        }
+
+        .entry.ghost{
+            min-height: var(--ghost-height);
+        }
+
+        /* keep dots/dividers off */
+        .entry.ghost::before{ display:none; }
+        .entry.ghost.year-break{ margin-top: 0 !important; }
+        .entry.ghost.year-break::after{ display:none !important; }
+
+
+        </style>
+    </head>
+
+    <body>
+        <!-- Fixed overlay year+line (hidden until timeline is active) -->
+        <div class="sidebar" id="sidebar" aria-hidden="true">
+            <div id="yearDisplay" class="year"></div>
+        </div>
+
+        <!-- TITLE PAGE (yours) -->
+        <section id="title-box">
+            <div id="title-container">
+                <button id="title"></button>
+                <a id="info-button" href="./special"><i class="fas fa-info-circle"></i></a>
+            </div>
+            <div id="social-icons">
+                <a href="https://github.com/BlueTot" target="_blank" rel="noreferrer"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/nok-hang-lo-2695a6282/" target="_blank" rel="noreferrer"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </section>
+
+        <!-- Gap so timeline doesn't appear while hero is still visible -->
+        <div class="after-hero-gap" aria-hidden="true"></div>
+
+        <!-- TIMELINE -->
+        <main class="wrap">
+            <section class="timeline grid" id="timelineSection">
+                <div class="spacer"></div>
+
+                <div>
+                    <!-- <div class="timeline-start" aria-hidden="true"></div> -->
+
+                    <div class="entries">
+
+                        <!-- ABOUT ME (before 2006) -->
+                        <section class="entry" data-year="About">
+                            <article class="card">
+                                <h1><i>Hey there, I'm Nok Hang.</i></h1>
+                                </br>
+                                <p>
+                                    I'm a <span class="bluetext"><b>19-year-old</b></span> 2nd year Computer Science undergraduate at the <b>University of Warwick.</b> I'm an aspiring software engineer, competitive programmer, and LeetCode warrior. In my first year, I achieved the <span class="violettext"><i>2nd-highest mark</i></span> in the year.
+                                </p>
+                                </br>
+                                <p>
+                                    I'm interested in <span class="yellowtext"><b>low-level programming, compilers, quantum computing, and high performance computing</b></span>, and I'm passionate about using the <span class="orangetext">terminal</span>, and <span class="orangetext">free & open source software</span>. In my free time, I like solving problems - so far, I've solved <span class="bluetext"><b>400+ Leetcodes</b></span>.
+                                </p>
+
+                                </br>
+                                <p><b><i>So far, I'm:</b></i></p>
+                                <ul>
+
+                                    <li style="margin-bottom: 1rem;">
+                                        ⭐ Team captain of Team CodeSoc at CIUK Cluster Challenge 2025.
+                                    </li>
+                                    <li style="margin-bottom: 1rem;">
+                                        🌱 A volunteer at Free Software Foundation's SysOps Team
+                                    </li>
+                                    <li style="margin-bottom: 1rem;">
+                                        🧊 Winner of UWCS Programming Competition 2025; placed 3rd at Warwick UKIEPC 2024 (37th nationally)
+                                    </li>
+                                    <li style="margin-bottom: 1rem;">
+                                        ✨ A member of the authoring & reviewing committee of PCTC
+                                    </li>
+                                    <li style="margin-bottom: 1rem;">
+                                        ✨ A contributor of pythonsponge.com, an A-Level CS educational website.
+                                    </li>
+                                </ul>
+                            </article>
+                        </section>
+
+
+                        <!-- ABOUT ME (before 2006) -->
+                        <section class="entry" data-year="About">
+                            <article class="card">
+                                <h1>Leetcode is a journey</h1>
+                                <p>One of my newest hobbies is making reels - check out this video I made.</p>
+                                <div class="embed">
+                                    <video controls preload="metadata">
+                                        <source src="./assets/400.mp4" type="video/mp4" />
+                                        Your browser does not support the video tag.
+                                    </video>
+                                </div>
+                            </article>
+                        </section>
+
+                        <!-- 2006 -->
+                        <section class="entry" data-year="2006">
+                            <article class="card compact">
+                                <h3>2006</h3>
+                                <div class="meta">
+                                    <span class="tag yellow">Born</span>
+                                    <span class="date">2006</span>
+                                </div>
+                                <p>Example placeholder — replace with your own content.</p>
+                            </article>
+                        </section>
+
+                        <!-- Ghost years generated by JS: 2007..2021 (no boxes) -->
+                        <div id="fastYears" class="ghost-years"></div>
+
+                        <!-- 2022..2026 -->
+                        <section class="entry" data-year="2022">
+                            <article class="card">
+                                <h3>2022 — Starting to build seriously</h3>
+                                <div class="meta">
+                                    <span class="tag green">Projects</span>
+                                    <span class="tag blue">Learning</span>
+                                    <span class="date">2022</span>
+                                </div>
+                                <p>Here you can start adding more boxes to “slow down” a year.</p>
+                            </article>
+                        </section>
+
+                        <section class="entry" data-year="2023">
+                            <article class="card">
+                                <h3>2023 — Milestone A</h3>
+                                <div class="meta">
+                                    <span class="tag violet">Topic</span>
+                                    <span class="tag blue">Tech</span>
+                                    <span class="date">2023</span>
+                                </div>
+                                <p>More detail.</p>
+                            </article>
+                        </section>
+
+                        <section class="entry" data-year="2023">
+                            <article class="card">
+                                <h3>2023 — Milestone B</h3>
+                                <div class="meta">
+                                    <span class="tag yellow">Achievement</span>
+                                    <span class="tag green">Impact</span>
+                                    <span class="date">2023</span>
+                                </div>
+                                <p>Second box means 2023 stays on screen longer.</p>
+                            </article>
+                        </section>
+
+                        <section class="entry" data-year="2024">
+                            <article class="card">
+                                <h3>2024 — Something notable</h3>
+                                <div class="meta">
+                                    <span class="tag blue">Systems</span>
+                                    <span class="tag yellow">Algorithms</span>
+                                    <span class="date">2024</span>
+                                </div>
+                                <p>Describe impact + what you learned.</p>
+                            </article>
+                        </section>
+
+                        <section class="entry" data-year="2025">
+                            <article class="card">
+                                <h3>2025 — Formula Student / Cluster challenge</h3>
+                                <div class="meta">
+                                    <span class="tag green">Kubernetes</span>
+                                    <span class="tag blue">Grafana</span>
+                                    <span class="tag red">Competition</span>
+                                    <span class="date">2025</span>
+                                </div>
+                                <p>Put your key wins here.</p>
+                            </article>
+                        </section>
+
+                        <section class="entry" data-year="2026">
+                            <article class="card">
+                                <h3>2026 — Internship / next step</h3>
+                                <div class="meta">
+                                    <span class="tag blue">Backend</span>
+                                    <span class="tag green">Observability</span>
+                                    <span class="tag orange">Scale</span>
+                                    <span class="date">2026</span>
+                                </div>
+                                <p>Wrap-up / current focus.</p>
+                            </article>
+                        </section>
+
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <script>
+        // ===== Your flicker JS (kept) =====
+        let isAnimating = false;
+
+        async function show_flicker(word) {
+            if (isAnimating) return;
+            isAnimating = true;
+
+            const output = document.getElementById("title");
+            output.textContent = "";
+
+            const response = await fetch("./assets/probs.json");
+            const maxProbs = await response.json();
+
+            const asciiChars = Array.from({length: 128}, (_, i) => String.fromCharCode(i));
+            let iteration = 0;
+
+            function probs(iteration, targetIndex) {
+                const highProb = maxProbs[iteration];
+                const lowProb = (1 - highProb) / (asciiChars.length - 1);
+                return asciiChars.map((_, i) => i === targetIndex ? highProb : lowProb);
+            }
+
+            function weightedRandom(probs) {
+                const r = Math.random();
+                let acc = 0;
+                for (let i = 0; i < probs.length; i++) {
+                    acc += probs[i];
+                    if (r <= acc) return asciiChars[i];
+                }
+                return asciiChars[asciiChars.length - 1];
+            }
+
+            const iterTimer = setInterval(() => {
+                iteration++;
+                if (iteration > 12) clearInterval(iterTimer);
+            }, 250);
+
+            const outputTimer = setInterval(() => {
+                if (iteration > 12) {
+                    output.textContent = word;
+                    isAnimating = false;
+                    clearInterval(outputTimer);
+                    return;
+                }
+                output.textContent = [...word].map(
+                    (_, index) => weightedRandom(probs(iteration, word.charCodeAt(index)))
+                ).join("");
+            }, 20);
+        }
+
+        document.getElementById("title").addEventListener(
+            "click", () => show_flicker("bluetot")
+        );
+        show_flicker("bluetot");
+
+        // ===== Fixed year show/hide + update (timeline only) + year-break spacing + fast years =====
+        (function () {
+            const sidebar = document.getElementById("sidebar");
+            const yearEl = document.getElementById("yearDisplay");
+            const timeline = document.getElementById("timelineSection");
+            if (!timeline) return;
+
+            // Generate ghost years as individual entries (no boxes)
+            const fastYearsHost = document.getElementById("fastYears");
+            if (fastYearsHost) {
+
+                for (let y = 2007; y <= 2021; y++) {
+                    const sec = document.createElement("section");
+                    sec.className = "entry ghost";
+                    sec.dataset.year = String(y);
+                    fastYearsHost.appendChild(sec);
+                }
+
+            }
+
+            // Collect entries AFTER generation
+            const entries = Array.from(document.querySelectorAll(".entry[data-year]"));
+            if (!entries.length) return;
+
+            // Add spacing classes automatically where year changes
+            let prevYear = null;
+            for (const el of entries) {
+                const y = el.dataset.year;
+                if (prevYear !== null && y !== prevYear) el.classList.add("year-break");
+                prevYear = y;
+            }
+
+            // Extra spacing after About -> next entry
+            const aboutIndex = entries.findIndex(e => (e.dataset.year || "").toLowerCase() === "about");
+            if (aboutIndex !== -1 && entries[aboutIndex + 1]) {
+                entries[aboutIndex + 1].classList.add("after-about-break");
+            }
+
+            let active = false;
+            let currentYear = "";
+
+            function fadeSetYear(nextYear){
+                if (!nextYear || nextYear === currentYear) return;
+                currentYear = nextYear;
+                yearEl.classList.add("fading");
+                setTimeout(() => {
+                    yearEl.textContent = nextYear;
+                    yearEl.classList.remove("fading");
+                }, 90);
+            }
+
+            // Robust year selection: last entry whose top has crossed a marker line.
+            // Also snaps to the last entry at the bottom so it always reaches 2026.
+            function pickYearAtMarker(){
+                const markerY = window.innerHeight * 1;
+
+                // If at bottom (or extremely near), force last year
+                const doc = document.documentElement;
+                if (window.scrollY + window.innerHeight >= doc.scrollHeight - 4) {
+                    fadeSetYear(entries[entries.length - 1].dataset.year);
+                    return;
+                }
+
+                // let candidate = entries[0];
+                // for (const el of entries) {
+                //     const r = el.getBoundingClientRect();
+                //     if (r.top <= markerY) candidate = el;
+                //         else break;
+                // }
+                // fadeSetYear(candidate.dataset.year);
+
+
+                let candidate = entries[0];
+                for (const el of entries) {
+                    const r = el.getBoundingClientRect();
+
+                    // NORMAL entries: switch when their TOP crosses marker
+                    // GHOST entries: switch when their CENTER crosses marker (prevents early flip)
+                    const triggerY = el.classList.contains("ghost")
+                        ? (r.top + r.bottom) / 2
+                        : r.top;
+
+                    if (triggerY <= markerY) candidate = el;
+                        else break;
+                }
+                fadeSetYear(candidate.dataset.year);
+
+
+            }
+
+            function computeActive(){
+                const r = timeline.getBoundingClientRect();
+                const y = window.innerHeight * 1;
+                return (r.top <= y) && (r.bottom >= y);
+            }
+
+            let ticking = false;
+            function onScrollOrResize(){
+                if (ticking) return;
+                ticking = true;
+
+                requestAnimationFrame(() => {
+                    ticking = false;
+
+                    const nextActive = computeActive();
+                    if (nextActive !== active) {
+                        active = nextActive;
+                        sidebar.classList.toggle("active", active);
+
+                        if (!active) {
+                            yearEl.textContent = "";
+                            currentYear = "";
+                        } else {
+                            pickYearAtMarker();
+                        }
+                    }
+
+                    if (active) pickYearAtMarker();
+                });
+            }
+
+            window.addEventListener("scroll", onScrollOrResize, { passive: true });
+            window.addEventListener("resize", onScrollOrResize);
+            onScrollOrResize();
+        })();
+        </script>
+    </body>
 </html>
 
