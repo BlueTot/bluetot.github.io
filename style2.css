@@ -49,6 +49,32 @@
     --ghost-gap: 4px;    /* bigger = slower */
 }
 
+/* Nav bar */
+nav {
+    position: absolute;   /* stay on top of hero section */
+    top: 0;
+    right: 0;
+    padding: 1rem 2rem;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 2rem;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
 * { box-sizing: border-box; }
 html, body { height: 100%; }
 body{
