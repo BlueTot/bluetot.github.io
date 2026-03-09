@@ -49,9 +49,9 @@ async function show_flicker(word) {
 }
 
 document.getElementById("title").addEventListener(
-    "click", () => show_flicker("bluetot")
+    "click", () => show_flicker("nok hang lo")
 );
-show_flicker("bluetot");
+show_flicker("nok hang lo");
 
 // ===== Fixed year show/hide + update (timeline only) + year-break spacing + fast years =====
 (function () {

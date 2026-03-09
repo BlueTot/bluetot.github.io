@@ -22,7 +22,7 @@ so moving toward the button stays inside the hover area */
     align-items: center;
     position: relative;
     padding-right: 3.5rem;     /* <-- critical: expands container hover area */
-    margin-left: 3.5rem; <-- /* this has to be the same to keep the title in the centre of the screen */
+    margin-left: 3.5rem; /* this has to be the same to keep the title in the centre of the screen */
 }
 
 /* title button */
