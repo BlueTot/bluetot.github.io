@@ -53,6 +53,10 @@ document.getElementById("title").addEventListener(
 );
 show_flicker("nok hang lo");
 
+const d = new Date();
+const iso = d.toISOString().slice(0, 10);
+document.getElementById("leetcode-date").textContent = iso;
+
 // ===== Fixed year show/hide + update (timeline only) + year-break spacing + fast years =====
 (function () {
     const sidebar = document.getElementById("sidebar");
