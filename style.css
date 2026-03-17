@@ -421,12 +421,70 @@ body::before{
     padding: 14px 16px 12px;
     opacity: .92;
 }
+.card.compact.tight{
+    padding: 12px 12px 10px; /* less empty space for media cards */
+}
 .card.compact h3{
     font-size: 0.98rem;
     margin-bottom: 4px;
 }
 .card.compact p{
     font-size: 0.9rem;
+}
+
+/* Image + text side-by-side inside cards */
+.media-row{
+    display: grid;
+    grid-template-columns: minmax(200px, 34%) 1fr;
+    gap: 14px;
+    align-items: start;
+}
+.media-row.tight{
+    gap: 10px;
+}
+
+.media-row .media{
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    aspect-ratio: 4 / 3;
+    border-radius: 12px;
+    border: 1px solid rgba(220,215,186,.10);
+    background: rgba(255,255,255,.02);
+}
+
+.media-row .media.square{
+    aspect-ratio: 1 / 1;         /* more square */
+    object-fit: cover;           /* fill square, crop edges slightly */
+    border-radius: 14px;
+}
+
+.media-row .media.portrait{
+    display: block;
+    object-fit: contain;         /* show full portrait image (no crop) */
+    object-position: center;
+    aspect-ratio: auto;          /* let the image decide the box */
+    padding: 0;                  /* no surrounding space */
+    background: transparent;     /* no “letterbox” background */
+    border-radius: 16px;         /* a bit more rounded */
+    max-height: 260px;           /* cap portrait so it doesn't dominate */
+}
+
+.media-row .copy p{
+    margin: 0 0 8px;
+}
+
+@media (max-width: 650px){
+    .media-row{
+        grid-template-columns: 1fr;
+    }
+    .media-row .media{
+        aspect-ratio: 16 / 10;
+    }
+    .media-row .media.portrait{
+        aspect-ratio: auto;
+        max-height: 360px;
+    }
 }
 
 /* Responsive */
