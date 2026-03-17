@@ -45,7 +45,7 @@
     /* --year-break-gap: 110px; */
     --after-about-break-gap: 170px;
 
-    --ghost-height: 80px; /* bigger = slower */
+    --ghost-height: 50px; /* bigger = slower */
     --ghost-gap: 4px;    /* bigger = slower */
 }
 
@@ -436,7 +436,7 @@ body::before{
 .media-row{
     display: grid;
     grid-template-columns: minmax(200px, 34%) 1fr;
-    gap: 14px;
+    gap: 25px;
     align-items: start;
 }
 .media-row.tight{
