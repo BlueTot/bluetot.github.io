@@ -272,7 +272,6 @@ body::before{
     column-gap: var(--gap);
     align-items: start;
 }
-.spacer{ /* empty */ }
 
 /* spacer after hero so first card isn't visible at same time */
 .after-hero-gap{
@@ -308,6 +307,11 @@ body::before{
 .entry{
     position: relative;
     scroll-margin-top: 120px;
+}
+
+/* Tighten spacing between About + LeetCode cards only */
+.entry.about-tight{
+    margin-top: calc(-1 * (var(--same-year-gap) - 86px));
 }
 
 /* extra spacing at year changes (added via JS) */
