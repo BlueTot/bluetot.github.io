@@ -1,8 +1,25 @@
-/* Shared layout/styles for Projects / CV / Blog pages.
+/* Shared layout/styles for non-home pages.
    Scoped to page sections so the home timeline stays unchanged. */
 
+.subpage .page-content{
+    padding-top: 92px; /* space for fixed nav */
+}
+
+.divider{
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg,
+        rgba(126,156,216,.55),
+        rgba(149,127,184,.55),
+        rgba(152,187,108,.45),
+        rgba(230,195,132,.45)
+    );
+    box-shadow: 0 0 18px rgba(126,156,216,.10);
+    margin: 0;
+}
+
 .page-content{
-    padding: 56px 0 120px;
+    padding: 38px 0 120px;
 }
 
 .page-header{
@@ -91,6 +108,18 @@
     color: rgba(220,215,186,.72);
 }
 
+/* Better lists for Experience page (and similar) */
+ul.bullets{
+    margin: 10px 0 0;
+    padding-left: 1.2rem;
+    color: rgba(220,215,186,.86);
+    line-height: 1.7;
+}
+
+ul.bullets li{
+    margin: 0.35rem 0;
+}
+
 /* Simple “post list” feel */
 .post-meta{
     display: flex;
@@ -113,5 +142,9 @@
     .page-content{ padding: 42px 0 110px; }
     .span-6{ grid-column: span 12; }
     .span-4{ grid-column: span 12; }
+}
+
+@media (max-width: 650px){
+    .subpage .page-content{ padding-top: 110px; }
 }
 
