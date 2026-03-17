@@ -50,29 +50,61 @@
 }
 
 /* Nav bar */
-nav {
-    position: absolute;   /* stay on top of hero section */
-    top: 0;
-    right: 0;
-    padding: 1rem 2rem;
+nav{
+    position: fixed;
+    top: 14px;
+    right: 16px;
+    z-index: 2000;
+
+    padding: 8px;
+    border-radius: 999px;
+    background: rgba(14, 16, 24, 0.70);
+    border: 1px solid rgba(220,215,186,.14);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 18px 55px rgba(0,0,0,.35);
 }
 
-nav ul {
+nav ul{
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
-    gap: 2rem;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
-nav a {
-    color: white;
+nav a{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px;
+    border-radius: 999px;
+    color: rgba(220,215,186,.92);
     text-decoration: none;
-    font-size: 1.2rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.01em;
+    border: 1px solid transparent;
+    transition: background .18s ease, border-color .18s ease, transform .18s ease, color .18s ease;
 }
 
-nav a:hover {
-    text-decoration: underline;
+nav a:hover{
+    background: rgba(255,255,255,.04);
+    border-color: rgba(220,215,186,.16);
+    color: var(--fg);
+    transform: translateY(-1px);
+}
+
+nav a[aria-current="page"]{
+    background: rgba(126,156,216,.10);
+    border-color: rgba(126,156,216,.32);
+    color: var(--fg);
+    box-shadow: 0 0 0 6px rgba(126,156,216,.08);
+}
+
+nav a:focus-visible{
+    outline: 2px solid rgba(126,156,216,.60);
+    outline-offset: 2px;
 }
 
 * { box-sizing: border-box; }
@@ -166,7 +198,7 @@ body::before{
 
 #title {
     font-family: monospace;
-    font-size: 5rem;
+    font-size: 6rem;
     background: transparent;
     color: var(--blue);
     border: none;
@@ -408,6 +440,7 @@ body::before{
     }
     #title { font-size: 4rem; }
     #title-box { font-size: 4rem; }
+    nav{ top: 10px; right: 10px; }
 }
 
 @media (max-width: 650px){
@@ -426,6 +459,14 @@ body::before{
     #title { font-size: 3.2rem; }
     #title-box { font-size: 3.2rem; }
     #title-container { padding-right: 2.6rem; margin-left: 2.6rem; }
+    nav{
+        left: 10px;
+        right: 10px;
+        top: 10px;
+        border-radius: 18px;
+        justify-content: center;
+    }
+    nav ul{ justify-content: center; }
 }
 
 .bluetext {

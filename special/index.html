@@ -2,10 +2,96 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>My Website</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Special | Nok Hang Lo</title>
+        <link rel="stylesheet" href="../style2.css">
+        <link rel="stylesheet" href="../pages.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     </head>
-    <body>
-        <h1>this is my special easter egg</h1>
+    <body class="subpage">
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/experience">Experience</a></li>
+                <li><a href="/projects">Projects</a></li>
+                <li><a href="/blog">Blog</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </nav>
+
+        <main class="wrap page-content" id="special">
+            <header class="page-header">
+                <h1>Special</h1>
+                <p>
+                    An easter egg corner — a place for small interactive experiments that fit the vibe of the site.
+                </p>
+            </header>
+
+            <div class="cards-grid">
+                <article class="card span-12">
+                    <h2>Interactive terminal vibe</h2>
+                    <p class="muted">
+                        This page is intentionally a different layout: a single focused panel. You can swap this for anything (puzzles, demos, animations).
+                    </p>
+                    <div class="actions">
+                        <button class="btn primary" id="revealBtn" type="button">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Reveal message
+                        </button>
+                        <button class="btn" id="copyBtn" type="button">
+                            <i class="fa-regular fa-copy"></i> Copy
+                        </button>
+                    </div>
+                </article>
+
+                <article class="card span-12" id="panel">
+                    <h2>Output</h2>
+                    <p id="output" class="muted">
+                        $ ./special --help
+                        <br />
+                        Try the button above.
+                    </p>
+                </article>
+            </div>
+        </main>
+
+        <script>
+            (function () {
+                const output = document.getElementById("output");
+                const revealBtn = document.getElementById("revealBtn");
+                const copyBtn = document.getElementById("copyBtn");
+
+                const message = [
+                    "$ echo \"hello, world\"",
+                    "hello, world",
+                    "",
+                    "if you found this: you were curious enough to click the info icon.",
+                    "curiosity is basically half of engineering."
+                ].join("\n");
+
+                function setOutput(text) {
+                    if (!output) return;
+                    output.innerHTML = text
+                        .split("\n")
+                        .map((l) => l.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;"))
+                        .join("<br />");
+                }
+
+                if (revealBtn) {
+                    revealBtn.addEventListener("click", () => setOutput(message));
+                }
+
+                if (copyBtn) {
+                    copyBtn.addEventListener("click", async () => {
+                        try {
+                            await navigator.clipboard.writeText(message);
+                            setOutput(message + "\n\n$ copied ✓");
+                        } catch {
+                            setOutput(message + "\n\n$ copy failed (browser permissions)");
+                        }
+                    });
+                }
+            })();
+        </script>
     </body>
 </html>
 
