@@ -1,100 +1,287 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Special | Nok Hang Lo</title>
-        <link rel="icon" href="../assets/bluetot_icon.JPG" type="image/jpeg" />
-        <link rel="shortcut icon" href="../assets/bluetot_icon.JPG" type="image/jpeg" />
-        <link rel="stylesheet" href="../style.css">
-        <link rel="stylesheet" href="../pages.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    </head>
-    <body class="subpage">
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/experience">Experience</a></li>
-                <li><a href="/projects">Projects</a></li>
-                <li><a href="/blog">Blog</a></li>
-                <li><a href="/contact">Contact</a></li>
-            </ul>
-        </nav>
 
-        <main class="wrap page-content" id="special">
-            <header class="page-header">
-                <h1>Special</h1>
-                <p>
-                    An easter egg corner — a place for small interactive experiments that fit the vibe of the site.
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Special | Nok Hang Lo</title>
+    <link rel="icon" href="../assets/bluetot_icon.JPG" type="image/jpeg" />
+    <link rel="shortcut icon" href="../assets/bluetot_icon.JPG" type="image/jpeg" />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../pages.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body class="subpage">
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/experience">Experience</a></li>
+            <li><a href="/projects">Projects</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="wrap page-content" id="special">
+        <header class="page-header">
+            <h1>Special</h1>
+            <p>
+                You found an easter egg on my website!
+            </p>
+        </header>
+
+        <div class="cards-grid">
+            <!-- Overview -->
+            <article class="card span-12">
+                <h2>What you’re seeing</h2>
+                <p class="muted">
+                    On the homepage, clicking the title triggers a short animation where each character
+                    “glitches” through ASCII symbols before settling on <b>nok hang lo</b>.
+                    It’s not just random noise — the randomness is weighted by probabilities generated from a
+                    <b>Qiskit Grover’s algorithm simulation</b>.
                 </p>
-            </header>
+                <ul class="bullets">
+                    <li><b>Input:</b> the target string (<code>nok hang lo</code>)</li>
+                    <li><b>Data:</b> <code>assets/probs.json</code> (a list of probabilities over Grover iterations)
+                    </li>
+                    <li><b>Output:</b> a flicker that converges from “chaos” → “correct letters”</li>
+                </ul>
+            </article>
 
-            <div class="cards-grid">
-                <article class="card span-12">
-                    <h2>Interactive terminal vibe</h2>
-                    <p class="muted">
-                        This page is intentionally a different layout: a single focused panel. You can swap this for anything (puzzles, demos, animations).
-                    </p>
-                    <div class="actions">
-                        <button class="btn primary" id="revealBtn" type="button">
-                            <i class="fa-solid fa-wand-magic-sparkles"></i> Reveal message
-                        </button>
-                        <button class="btn" id="copyBtn" type="button">
-                            <i class="fa-regular fa-copy"></i> Copy
-                        </button>
-                    </div>
-                </article>
+            <!-- Try it -->
+            <article class="card span-12">
+                <h2>Try the flicker (mini demo)</h2>
+                <p class="muted">
+                    This is the same idea as the homepage. It loads <code>../assets/probs.json</code> and uses it as a
+                    “confidence schedule” while it animates.
+                </p>
+                <div class="actions">
+                    <button class="btn primary" id="runBtn" type="button">
+                        <i class="fa-solid fa-bolt"></i> Run flicker
+                    </button>
+                    <button class="btn" id="copyBtn" type="button">
+                        <i class="fa-regular fa-copy"></i> Copy explanation
+                    </button>
+                </div>
+            </article>
 
-                <article class="card span-12" id="panel">
-                    <h2>Output</h2>
-                    <p id="output" class="muted">
-                        $ ./special --help
-                        <br />
-                        Try the button above.
-                    </p>
-                </article>
-            </div>
-        </main>
+            <!-- Output -->
+            <article class="card span-12" id="panel">
+                <h2>Output</h2>
+                <p id="output" class="muted" style="white-space: pre-wrap; margin: 0;">
+                    $ ./title_flicker --explain
+                    Click “Run flicker”.
+                </p>
+                <div style="margin-top: 12px;">
+                    <!-- This button is purely local to this page (not your main title button) -->
+                    <button class="btn" id="flickerTitleBtn" type="button" aria-label="Flicker demo title">
+                        <span id="demoTitle" style="font-family: monospace; font-size: 1.4rem;">nok hang lo</span>
+                    </button>
+                </div>
+                <p class="muted" style="margin-top: 10px;">
+                    Tip: open DevTools → Network and confirm <code>probs.json</code> loads successfully.
+                </p>
+            </article>
 
-        <script>
-            (function () {
-                const output = document.getElementById("output");
-                const revealBtn = document.getElementById("revealBtn");
-                const copyBtn = document.getElementById("copyBtn");
+            <!-- How it works -->
+            <article class="card span-12">
+                <h2>How the flicker works (in plain English)</h2>
+                <ul class="bullets">
+                    <li>
+                        The animation runs in <b>iterations</b> (you used 0 → 12).
+                    </li>
+                    <li>
+                        For each iteration, we have a number <code>highProb</code> (from <code>probs.json</code>).
+                        Think of it as “confidence” that the output should be the correct character.
+                    </li>
+                    <li>
+                        For each character position in the word, we randomly pick an ASCII character:
+                        <ul class="bullets">
+                            <li>with probability <code>highProb</code>, pick the <b>correct</b> target character</li>
+                            <li>with remaining probability, pick a <b>uniform random</b> ASCII char (noise)</li>
+                        </ul>
+                    </li>
+                    <li>
+                        As <code>highProb</code> increases over iterations, the output “locks in”.
+                    </li>
+                </ul>
+                <p class="muted">
+                    So the “quantum” part isn’t that the browser runs quantum code — it’s that the <b>probability
+                        schedule</b>
+                    was produced by a Grover simulation, then used to weight randomness in JavaScript.
+                </p>
+            </article>
 
-                const message = [
-                    "$ echo \"hello, world\"",
-                    "hello, world",
-                    "",
-                    "if you found this: you were curious enough to click the info icon.",
-                    "curiosity is basically half of engineering."
-                ].join("\n");
+            <!-- Quantum part -->
+            <article class="card span-12">
+                <h2>Where the probabilities come from (Grover’s algorithm)</h2>
+                <p class="muted">
+                    In your Python/Qiskit script, you simulate Grover’s search on an 8-qubit circuit.
+                    Each Grover iteration increases amplitude (and therefore probability) of “marked” states.
+                </p>
+                <ul class="bullets">
+                    <li><b>Oracle:</b> marks the target bit-pattern (you build anti-controls based on the character’s
+                        bits)</li>
+                    <li><b>Diffusion:</b> amplitude amplification step (reflect about average)</li>
+                    <li><b>Statevector simulator:</b> you collect probabilities each iteration</li>
+                    <li><b>Export:</b> store the <b>largest probability</b> after each iteration into
+                        <code>assets/probs.json</code></li>
+                </ul>
+                <p class="muted">
+                    You then reuse that array in the frontend as <code>highProb</code> values over time.
+                </p>
+            </article>
 
-                function setOutput(text) {
-                    if (!output) return;
-                    output.innerHTML = text
-                        .split("\n")
-                        .map((l) => l.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;"))
-                        .join("<br />");
+            <!-- Circuit diagram suggestion -->
+            <article class="card span-12">
+                <h2>Generating a circuit diagram image</h2>
+                <p class="muted">
+                    Yes — Qiskit can render circuits to images. Two common options:
+                </p>
+
+                <h3 style="margin-top: 12px;">Option A: save to PNG (recommended)</h3>
+                <p class="muted">Add this to your Python script after building <code>qc</code>:</p>
+                <pre class="muted" style="white-space: pre; overflow:auto; margin: 0;">
+from qiskit.visualization import circuit_drawer
+
+# Save the circuit diagram as a PNG
+circuit_drawer(qc, output="mpl", filename="assets/grover_circuit.png", fold=-1)
+</pre>
+
+                <h3 style="margin-top: 12px;">Option B: save to SVG (nice for web)</h3>
+                <p class="muted">SVG scales perfectly on your site:</p>
+                <pre class="muted" style="white-space: pre; overflow:auto; margin: 0;">
+from qiskit.visualization import circuit_drawer
+
+circuit_drawer(qc, output="svg", filename="assets/grover_circuit.svg", fold=-1)
+</pre>
+
+                <p class="muted" style="margin-top: 10px;">
+                    If you use <code>output="mpl"</code>, you may need <code>matplotlib</code> installed.
+                    For SVG output, it’s usually simpler and web-friendly.
+                </p>
+            </article>
+
+            <!-- Optional: show the diagram if you add it -->
+            <article class="card span-12">
+                <h2>Diagram (optional)</h2>
+                <p class="muted">
+                    If you generate <code>assets/grover_circuit.svg</code>, you can embed it here:
+                </p>
+                <div class="actions">
+                    <a class="btn" href="/assets/grover_circuit.svg" target="_blank" rel="noreferrer">
+                        <i class="fa-regular fa-image"></i> Open diagram
+                    </a>
+                </div>
+                <p class="muted" style="margin-top: 10px;">
+                    (You can also inline it with an <code>&lt;img&gt;</code> tag if you prefer.)
+                </p>
+            </article>
+        </div>
+    </main>
+
+    <script>
+        (function () {
+            const output = document.getElementById("output");
+            const runBtn = document.getElementById("runBtn");
+            const copyBtn = document.getElementById("copyBtn");
+            const demoTitle = document.getElementById("demoTitle");
+            const flickerTitleBtn = document.getElementById("flickerTitleBtn");
+
+            const explainText = [
+                "$ ./title_flicker --explain",
+                "",
+                "The homepage title flickers by sampling ASCII characters.",
+                "At each iteration, a 'highProb' value decides how likely the correct character is.",
+                "Those highProb values come from a Grover's algorithm simulation (Qiskit Aer statevector).",
+                "",
+                "Data flow:",
+                "  Qiskit (Grover iterations) -> largest probability each iteration -> assets/probs.json",
+                "  Browser loads probs.json -> uses it as a confidence schedule for flicker",
+            ].join("\n");
+
+            function setOutput(text) {
+                if (!output) return;
+                output.textContent = text;
+            }
+
+            // --- Flicker demo (same core logic as your homepage) ---
+            let isAnimating = false;
+
+            async function show_flicker(word) {
+                if (isAnimating) return;
+                isAnimating = true;
+
+                if (demoTitle) demoTitle.textContent = "";
+
+                // IMPORTANT: this page is /special/, so probs.json is one directory up
+                const response = await fetch("../assets/probs.json");
+                const maxProbs = await response.json();
+
+                const asciiChars = Array.from({ length: 128 }, (_, i) => String.fromCharCode(i));
+                let iteration = 0;
+
+                function probs(iteration, targetIndex) {
+                    const highProb = maxProbs[iteration];
+                    const lowProb = (1 - highProb) / (asciiChars.length - 1);
+                    return asciiChars.map((_, i) => (i === targetIndex ? highProb : lowProb));
                 }
 
-                if (revealBtn) {
-                    revealBtn.addEventListener("click", () => setOutput(message));
+                function weightedRandom(ps) {
+                    const r = Math.random();
+                    let acc = 0;
+                    for (let i = 0; i < ps.length; i++) {
+                        acc += ps[i];
+                        if (r <= acc) return asciiChars[i];
+                    }
+                    return asciiChars[asciiChars.length - 1];
                 }
 
-                if (copyBtn) {
-                    copyBtn.addEventListener("click", async () => {
-                        try {
-                            await navigator.clipboard.writeText(message);
-                            setOutput(message + "\n\n$ copied ✓");
-                        } catch {
-                            setOutput(message + "\n\n$ copy failed (browser permissions)");
-                        }
-                    });
-                }
-            })();
-        </script>
-    </body>
+                const iterTimer = setInterval(() => {
+                    iteration++;
+                    if (iteration > 12) clearInterval(iterTimer);
+                }, 250);
+
+                const outputTimer = setInterval(() => {
+                    if (iteration > 12) {
+                        if (demoTitle) demoTitle.textContent = word;
+                        isAnimating = false;
+                        clearInterval(outputTimer);
+                        return;
+                    }
+
+                    if (!demoTitle) return;
+
+                    demoTitle.textContent = [...word]
+                        .map((_, index) => weightedRandom(probs(iteration, word.charCodeAt(index))))
+                        .join("");
+                }, 20);
+            }
+
+            function run() {
+                setOutput(explainText + "\n\n$ running flicker demo…");
+                show_flicker("nok hang lo");
+            }
+
+            if (runBtn) runBtn.addEventListener("click", run);
+            if (flickerTitleBtn) flickerTitleBtn.addEventListener("click", run);
+
+            if (copyBtn) {
+                copyBtn.addEventListener("click", async () => {
+                    try {
+                        await navigator.clipboard.writeText(explainText);
+                        setOutput(explainText + "\n\n$ copied ✓");
+                    } catch {
+                        setOutput(explainText + "\n\n$ copy failed (browser permissions)");
+                    }
+                });
+            }
+
+            // Start with explanation
+            setOutput(explainText);
+        })();
+    </script>
+</body>
+
 </html>
-
-

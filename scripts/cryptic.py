@@ -2,6 +2,8 @@ from qiskit_aer import Aer
 from qiskit.circuit import QuantumCircuit
 from qiskit.compiler import transpile
 from qiskit.circuit.library import MCXGate
+from qiskit.visualization import circuit_drawer
+
 from math import floor, pi, sqrt
 import numpy as np
 import json
@@ -131,6 +133,13 @@ def main() -> None:
     print(len(result), result)
     with open("assets/probs.json", "w") as f:
         f.write(json.dumps(result, indent=4))
+
+    # returns a matplotlib Figure when output="mpl"
+    fig = circuit_drawer(qc, output="mpl", fold=-1)
+
+    # save as SVG (or PNG)
+    fig.savefig("assets/grover_circuit.svg", bbox_inches="tight")
+    # fig.savefig("assets/grover_circuit.png", dpi=300, bbox_inches="tight")
 
 if __name__ in "__main__":
     main()
