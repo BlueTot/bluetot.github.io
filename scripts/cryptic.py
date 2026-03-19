@@ -134,12 +134,8 @@ def main() -> None:
     with open("assets/probs.json", "w") as f:
         f.write(json.dumps(result, indent=4))
 
-    # returns a matplotlib Figure when output="mpl"
-    fig = circuit_drawer(qc, output="mpl", fold=-1)
-
-    # save as SVG (or PNG)
-    fig.savefig("assets/grover_circuit.svg", bbox_inches="tight")
-    # fig.savefig("assets/grover_circuit.png", dpi=300, bbox_inches="tight")
+    fig = circuit_drawer(qc, output="mpl", fold=25)  # fold=-1 shows it all in one line if possible
+    fig.savefig("assets/grover_circuit.png", dpi=300, bbox_inches="tight")
 
 if __name__ in "__main__":
     main()

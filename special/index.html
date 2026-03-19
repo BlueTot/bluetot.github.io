@@ -25,159 +25,111 @@
 
     <main class="wrap page-content" id="special">
         <header class="page-header">
-            <h1>Special</h1>
-            <p>
-                You found an easter egg on my website!
-            </p>
+            <h1>easter egg</h1>
+            <p>you seem to be interested in what the title's doing...</p>
         </header>
 
         <div class="cards-grid">
-            <!-- Overview -->
+            <!-- Simple explanation -->
             <article class="card span-12">
-                <h2>What you’re seeing</h2>
+                <h2>What this is</h2>
                 <p class="muted">
-                    On the homepage, clicking the title triggers a short animation where each character
-                    “glitches” through ASCII symbols before settling on <b>nok hang lo</b>.
-                    It’s not just random noise — the randomness is weighted by probabilities generated from a
-                    <b>Qiskit Grover’s algorithm simulation</b>.
+                    The homepage title is effectively a "real-time" visualisation of <b>Grover's algorithm</b>, a famous Quantum search algorithm.
+                    The title "glitches" through random ASCII characters, then converges to the correct text, which is a representation of
+                    the probability distribution at each timestep.
                 </p>
-                <ul class="bullets">
-                    <li><b>Input:</b> the target string (<code>nok hang lo</code>)</li>
-                    <li><b>Data:</b> <code>assets/probs.json</code> (a list of probabilities over Grover iterations)
-                    </li>
-                    <li><b>Output:</b> a flicker that converges from “chaos” → “correct letters”</li>
-                </ul>
-            </article>
+                <br/>
+                <p class="muted">
+                    The browser doesn't run quantum code - it just reuses the probability schedule exported by the simulation, which can be found
+                    in a python script if you look in the github repository for this website.
+                </p>
 
-            <!-- Try it -->
-            <article class="card span-12">
-                <h2>Try the flicker (mini demo)</h2>
-                <p class="muted">
-                    This is the same idea as the homepage. It loads <code>../assets/probs.json</code> and uses it as a
-                    “confidence schedule” while it animates.
-                </p>
                 <div class="actions">
-                    <button class="btn primary" id="runBtn" type="button">
-                        <i class="fa-solid fa-bolt"></i> Run flicker
-                    </button>
-                    <button class="btn" id="copyBtn" type="button">
-                        <i class="fa-regular fa-copy"></i> Copy explanation
-                    </button>
-                </div>
-            </article>
-
-            <!-- Output -->
-            <article class="card span-12" id="panel">
-                <h2>Output</h2>
-                <p id="output" class="muted" style="white-space: pre-wrap; margin: 0;">
-                    $ ./title_flicker --explain
-                    Click “Run flicker”.
-                </p>
-                <div style="margin-top: 12px;">
-                    <!-- This button is purely local to this page (not your main title button) -->
-                    <button class="btn" id="flickerTitleBtn" type="button" aria-label="Flicker demo title">
-                        <span id="demoTitle" style="font-family: monospace; font-size: 1.4rem;">nok hang lo</span>
-                    </button>
-                </div>
-                <p class="muted" style="margin-top: 10px;">
-                    Tip: open DevTools → Network and confirm <code>probs.json</code> loads successfully.
-                </p>
-            </article>
-
-            <!-- How it works -->
-            <article class="card span-12">
-                <h2>How the flicker works (in plain English)</h2>
-                <ul class="bullets">
-                    <li>
-                        The animation runs in <b>iterations</b> (you used 0 → 12).
-                    </li>
-                    <li>
-                        For each iteration, we have a number <code>highProb</code> (from <code>probs.json</code>).
-                        Think of it as “confidence” that the output should be the correct character.
-                    </li>
-                    <li>
-                        For each character position in the word, we randomly pick an ASCII character:
-                        <ul class="bullets">
-                            <li>with probability <code>highProb</code>, pick the <b>correct</b> target character</li>
-                            <li>with remaining probability, pick a <b>uniform random</b> ASCII char (noise)</li>
-                        </ul>
-                    </li>
-                    <li>
-                        As <code>highProb</code> increases over iterations, the output “locks in”.
-                    </li>
-                </ul>
-                <p class="muted">
-                    So the “quantum” part isn’t that the browser runs quantum code — it’s that the <b>probability
-                        schedule</b>
-                    was produced by a Grover simulation, then used to weight randomness in JavaScript.
-                </p>
-            </article>
-
-            <!-- Quantum part -->
-            <article class="card span-12">
-                <h2>Where the probabilities come from (Grover’s algorithm)</h2>
-                <p class="muted">
-                    In your Python/Qiskit script, you simulate Grover’s search on an 8-qubit circuit.
-                    Each Grover iteration increases amplitude (and therefore probability) of “marked” states.
-                </p>
-                <ul class="bullets">
-                    <li><b>Oracle:</b> marks the target bit-pattern (you build anti-controls based on the character’s
-                        bits)</li>
-                    <li><b>Diffusion:</b> amplitude amplification step (reflect about average)</li>
-                    <li><b>Statevector simulator:</b> you collect probabilities each iteration</li>
-                    <li><b>Export:</b> store the <b>largest probability</b> after each iteration into
-                        <code>assets/probs.json</code></li>
-                </ul>
-                <p class="muted">
-                    You then reuse that array in the frontend as <code>highProb</code> values over time.
-                </p>
-            </article>
-
-            <!-- Circuit diagram suggestion -->
-            <article class="card span-12">
-                <h2>Generating a circuit diagram image</h2>
-                <p class="muted">
-                    Yes — Qiskit can render circuits to images. Two common options:
-                </p>
-
-                <h3 style="margin-top: 12px;">Option A: save to PNG (recommended)</h3>
-                <p class="muted">Add this to your Python script after building <code>qc</code>:</p>
-                <pre class="muted" style="white-space: pre; overflow:auto; margin: 0;">
-from qiskit.visualization import circuit_drawer
-
-# Save the circuit diagram as a PNG
-circuit_drawer(qc, output="mpl", filename="assets/grover_circuit.png", fold=-1)
-</pre>
-
-                <h3 style="margin-top: 12px;">Option B: save to SVG (nice for web)</h3>
-                <p class="muted">SVG scales perfectly on your site:</p>
-                <pre class="muted" style="white-space: pre; overflow:auto; margin: 0;">
-from qiskit.visualization import circuit_drawer
-
-circuit_drawer(qc, output="svg", filename="assets/grover_circuit.svg", fold=-1)
-</pre>
-
-                <p class="muted" style="margin-top: 10px;">
-                    If you use <code>output="mpl"</code>, you may need <code>matplotlib</code> installed.
-                    For SVG output, it’s usually simpler and web-friendly.
-                </p>
-            </article>
-
-            <!-- Optional: show the diagram if you add it -->
-            <article class="card span-12">
-                <h2>Diagram (optional)</h2>
-                <p class="muted">
-                    If you generate <code>assets/grover_circuit.svg</code>, you can embed it here:
-                </p>
-                <div class="actions">
-                    <a class="btn" href="/assets/grover_circuit.svg" target="_blank" rel="noreferrer">
-                        <i class="fa-regular fa-image"></i> Open diagram
+                    <!-- Real, stable reference -->
+                    <a class="btn primary" href="https://en.wikipedia.org/wiki/Grover%27s_algorithm" target="_blank"
+                        rel="noreferrer">
+                        <i class="fa-solid fa-up-right-from-square"></i> Grover’s algorithm (overview)
+                    </a>
+                    <a class="btn" href="https://qiskit.org/documentation/" target="_blank" rel="noreferrer">
+                        <i class="fa-solid fa-book"></i> Qiskit docs
                     </a>
                 </div>
+            </article>
+
+            <!-- Interactive flicker -->
+            <article class="card span-12">
+                <h2>Try it</h2>
+                <p class="muted">
+                    Type any short phrase and click <b>Flicker</b>. This uses the same <code>../assets/probs.json</code>
+                    confidence
+                    curve as the homepage.
+                </p>
+
+                <div class="actions" style="gap: 10px; flex-wrap: wrap;">
+                    <label class="muted" for="userText" style="display:flex; align-items:center; gap:8px;">
+                        <i class="fa-solid fa-terminal"></i>
+                        <span>Text:</span>
+                    </label>
+                    <input id="userText" type="text" value="nok hang lo" maxlength="32" style="
+              min-width: 240px;
+              padding: 10px 12px;
+              border-radius: 12px;
+              border: 1px solid rgba(220,215,186,.18);
+              background: rgba(14,16,24,.55);
+              color: rgba(220,215,186,.92);
+              outline: none;
+            " />
+                    <button class="btn primary" id="runBtn" type="button">
+                        <i class="fa-solid fa-bolt"></i> Flicker
+                    </button>
+                </div>
+
+                <div style="margin-top: 14px;">
+                    <button class="btn" id="flickerTitleBtn" type="button" aria-label="Flicker demo title">
+                        <span id="demoTitle" style="font-family: monospace; font-size: 1.55rem;">nok hang lo</span>
+                    </button>
+                </div>
+
                 <p class="muted" style="margin-top: 10px;">
-                    (You can also inline it with an <code>&lt;img&gt;</code> tag if you prefer.)
+                    Note: the probability curve is generated for a single 8-qubit Grover setup, used for one ASCII character, so this
+                    is not a true quantum search for your typed string.
                 </p>
             </article>
+
+            <!-- Circuit image -->
+            <article class="card span-12">
+                <h2>Quantum circuit</h2>
+                <p class="muted">
+                    This is a diagram exported from the Qiskit circuit used to generate the probability schedule.
+                </p>
+
+                <!-- Put your file in /assets/ and link it here -->
+                <div style="
+          margin-top: 12px;
+          border-radius: 14px;
+          overflow: hidden;
+          border: 1px solid rgba(220,215,186,.14);
+          background: rgba(14,16,24,.45);
+        ">
+                    <img src="../assets/grover_circuit.png" alt="Grover circuit diagram" loading="lazy"
+                        style="display:block; width:100%; height:auto;" />
+                </div>
+
+                <div class="actions" style="margin-top: 12px;">
+                    <a class="btn" href="/assets/grover_circuit.png" target="_blank" rel="noreferrer">
+                        <i class="fa-regular fa-image"></i> Open image
+                    </a>
+                </div>
+            </article>
+
+            <!-- Output / explanation -->
+            <!-- <article class="card span-12" id="panel">
+                <h2>Output</h2>
+                <p id="output" class="muted" style="white-space: pre-wrap; margin: 0;">
+                    $ ./title_flicker --help
+                    Type text → Flicker.
+                </p>
+            </article> -->
         </div>
     </main>
 
@@ -188,17 +140,16 @@ circuit_drawer(qc, output="svg", filename="assets/grover_circuit.svg", fold=-1)
             const copyBtn = document.getElementById("copyBtn");
             const demoTitle = document.getElementById("demoTitle");
             const flickerTitleBtn = document.getElementById("flickerTitleBtn");
+            const userText = document.getElementById("userText");
 
             const explainText = [
                 "$ ./title_flicker --explain",
                 "",
                 "The homepage title flickers by sampling ASCII characters.",
-                "At each iteration, a 'highProb' value decides how likely the correct character is.",
-                "Those highProb values come from a Grover's algorithm simulation (Qiskit Aer statevector).",
+                "A 'highProb' schedule controls how likely each character is correct over time.",
+                "That schedule comes from a Qiskit Aer statevector simulation of Grover's algorithm.",
                 "",
-                "Data flow:",
-                "  Qiskit (Grover iterations) -> largest probability each iteration -> assets/probs.json",
-                "  Browser loads probs.json -> uses it as a confidence schedule for flicker",
+                "Idea: noise → amplified probability → correct output."
             ].join("\n");
 
             function setOutput(text) {
@@ -206,7 +157,6 @@ circuit_drawer(qc, output="svg", filename="assets/grover_circuit.svg", fold=-1)
                 output.textContent = text;
             }
 
-            // --- Flicker demo (same core logic as your homepage) ---
             let isAnimating = false;
 
             async function show_flicker(word) {
@@ -215,15 +165,23 @@ circuit_drawer(qc, output="svg", filename="assets/grover_circuit.svg", fold=-1)
 
                 if (demoTitle) demoTitle.textContent = "";
 
-                // IMPORTANT: this page is /special/, so probs.json is one directory up
-                const response = await fetch("../assets/probs.json");
-                const maxProbs = await response.json();
+                // this page is /special/, so probs.json is one directory up
+                let maxProbs;
+                try {
+                    const response = await fetch("../assets/probs.json");
+                    maxProbs = await response.json();
+                } catch (e) {
+                    setOutput(explainText + "\n\n$ error: couldn't load ../assets/probs.json");
+                    isAnimating = false;
+                    return;
+                }
 
                 const asciiChars = Array.from({ length: 128 }, (_, i) => String.fromCharCode(i));
                 let iteration = 0;
+                const maxIter = Math.min(12, maxProbs.length - 1);
 
                 function probs(iteration, targetIndex) {
-                    const highProb = maxProbs[iteration];
+                    const highProb = maxProbs[iteration] ?? maxProbs[maxIter];
                     const lowProb = (1 - highProb) / (asciiChars.length - 1);
                     return asciiChars.map((_, i) => (i === targetIndex ? highProb : lowProb));
                 }
@@ -240,11 +198,11 @@ circuit_drawer(qc, output="svg", filename="assets/grover_circuit.svg", fold=-1)
 
                 const iterTimer = setInterval(() => {
                     iteration++;
-                    if (iteration > 12) clearInterval(iterTimer);
+                    if (iteration > maxIter) clearInterval(iterTimer);
                 }, 250);
 
                 const outputTimer = setInterval(() => {
-                    if (iteration > 12) {
+                    if (iteration > maxIter) {
                         if (demoTitle) demoTitle.textContent = word;
                         isAnimating = false;
                         clearInterval(outputTimer);
@@ -260,25 +218,21 @@ circuit_drawer(qc, output="svg", filename="assets/grover_circuit.svg", fold=-1)
             }
 
             function run() {
-                setOutput(explainText + "\n\n$ running flicker demo…");
-                show_flicker("nok hang lo");
+                const txt = (userText?.value ?? "nok hang lo").trim();
+                const safe = txt.length ? txt.slice(0, 32) : "nok hang lo";
+                setOutput(explainText + "\n\n$ flickering: " + JSON.stringify(safe));
+                show_flicker(safe);
             }
 
             if (runBtn) runBtn.addEventListener("click", run);
             if (flickerTitleBtn) flickerTitleBtn.addEventListener("click", run);
 
-            if (copyBtn) {
-                copyBtn.addEventListener("click", async () => {
-                    try {
-                        await navigator.clipboard.writeText(explainText);
-                        setOutput(explainText + "\n\n$ copied ✓");
-                    } catch {
-                        setOutput(explainText + "\n\n$ copy failed (browser permissions)");
-                    }
+            if (userText) {
+                userText.addEventListener("keydown", (e) => {
+                    if (e.key === "Enter") run();
                 });
             }
 
-            // Start with explanation
             setOutput(explainText);
         })();
     </script>
