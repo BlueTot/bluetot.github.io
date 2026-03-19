@@ -1,100 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Special | Nok Hang Lo</title>
-        <link rel="icon" href="../assets/bluetot_icon.JPG" type="image/jpeg" />
-        <link rel="shortcut icon" href="../assets/bluetot_icon.JPG" type="image/jpeg" />
-        <link rel="stylesheet" href="../style.css">
-        <link rel="stylesheet" href="../pages.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    </head>
-    <body class="subpage">
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/experience">Experience</a></li>
-                <li><a href="/projects">Projects</a></li>
-                <li><a href="/blog">Blog</a></li>
-                <li><a href="/contact">Contact</a></li>
-            </ul>
-        </nav>
 
-        <main class="wrap page-content" id="special">
-            <header class="page-header">
-                <h1>Special</h1>
-                <p>
-                    An easter egg corner — a place for small interactive experiments that fit the vibe of the site.
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Special | Nok Hang Lo</title>
+    <link rel="icon" href="../assets/bluetot_icon.JPG" type="image/jpeg" />
+    <link rel="shortcut icon" href="../assets/bluetot_icon.JPG" type="image/jpeg" />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../pages.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body class="subpage">
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/experience">Experience</a></li>
+            <li><a href="/projects">Projects</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="wrap page-content" id="special">
+        <header class="page-header">
+            <h1>easter egg</h1>
+            <p>you seem to be interested in what the title's doing...</p>
+        </header>
+
+        <div class="cards-grid">
+            <!-- Simple explanation -->
+            <article class="card span-12">
+                <h2>What this is</h2>
+                <p class="muted">
+                    The homepage title is effectively a "real-time" visualisation of <b>Grover's algorithm</b>, a famous Quantum search algorithm.
+                    The title "glitches" through random ASCII characters, then converges to the correct text, which is a representation of
+                    the probability distribution at each timestep.
                 </p>
-            </header>
+                <br/>
+                <p class="muted">
+                    The browser doesn't run quantum code - it just reuses the probability schedule exported by the simulation, which can be found
+                    in a python script if you look in the github repository for this website.
+                </p>
 
-            <div class="cards-grid">
-                <article class="card span-12">
-                    <h2>Interactive terminal vibe</h2>
-                    <p class="muted">
-                        This page is intentionally a different layout: a single focused panel. You can swap this for anything (puzzles, demos, animations).
-                    </p>
-                    <div class="actions">
-                        <button class="btn primary" id="revealBtn" type="button">
-                            <i class="fa-solid fa-wand-magic-sparkles"></i> Reveal message
-                        </button>
-                        <button class="btn" id="copyBtn" type="button">
-                            <i class="fa-regular fa-copy"></i> Copy
-                        </button>
-                    </div>
-                </article>
+                <div class="actions">
+                    <!-- Real, stable reference -->
+                    <a class="btn primary" href="https://en.wikipedia.org/wiki/Grover%27s_algorithm" target="_blank"
+                        rel="noreferrer">
+                        <i class="fa-solid fa-up-right-from-square"></i> Grover’s algorithm (overview)
+                    </a>
+                    <a class="btn" href="https://qiskit.org/documentation/" target="_blank" rel="noreferrer">
+                        <i class="fa-solid fa-book"></i> Qiskit docs
+                    </a>
+                </div>
+            </article>
 
-                <article class="card span-12" id="panel">
-                    <h2>Output</h2>
-                    <p id="output" class="muted">
-                        $ ./special --help
-                        <br />
-                        Try the button above.
-                    </p>
-                </article>
-            </div>
-        </main>
+            <!-- Interactive flicker -->
+            <article class="card span-12">
+                <h2>Try it</h2>
+                <p class="muted">
+                    Type any short phrase and click <b>Flicker</b>. This uses the same <code>../assets/probs.json</code>
+                    confidence
+                    curve as the homepage.
+                </p>
 
-        <script>
-            (function () {
-                const output = document.getElementById("output");
-                const revealBtn = document.getElementById("revealBtn");
-                const copyBtn = document.getElementById("copyBtn");
+                <div class="actions" style="gap: 10px; flex-wrap: wrap;">
+                    <label class="muted" for="userText" style="display:flex; align-items:center; gap:8px;">
+                        <i class="fa-solid fa-terminal"></i>
+                        <span>Text:</span>
+                    </label>
+                    <input id="userText" type="text" value="nok hang lo" maxlength="32" style="
+              min-width: 240px;
+              padding: 10px 12px;
+              border-radius: 12px;
+              border: 1px solid rgba(220,215,186,.18);
+              background: rgba(14,16,24,.55);
+              color: rgba(220,215,186,.92);
+              outline: none;
+            " />
+                    <button class="btn primary" id="runBtn" type="button">
+                        <i class="fa-solid fa-bolt"></i> Flicker
+                    </button>
+                </div>
 
-                const message = [
-                    "$ echo \"hello, world\"",
-                    "hello, world",
-                    "",
-                    "if you found this: you were curious enough to click the info icon.",
-                    "curiosity is basically half of engineering."
-                ].join("\n");
+                <div style="margin-top: 14px;">
+                    <button class="btn" id="flickerTitleBtn" type="button" aria-label="Flicker demo title">
+                        <span id="demoTitle" style="font-family: monospace; font-size: 1.55rem;">nok hang lo</span>
+                    </button>
+                </div>
 
-                function setOutput(text) {
-                    if (!output) return;
-                    output.innerHTML = text
-                        .split("\n")
-                        .map((l) => l.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;"))
-                        .join("<br />");
+                <p class="muted" style="margin-top: 10px;">
+                    Note: the probability curve is generated for a single 8-qubit Grover setup, used for one ASCII character, so this
+                    is not a true quantum search for your typed string.
+                </p>
+            </article>
+
+            <!-- Circuit image -->
+            <article class="card span-12">
+                <h2>Quantum circuit</h2>
+                <p class="muted">
+                    This is a diagram exported from the Qiskit circuit used to generate the probability schedule.
+                </p>
+
+                <!-- Put your file in /assets/ and link it here -->
+                <div style="
+          margin-top: 12px;
+          border-radius: 14px;
+          overflow: hidden;
+          border: 1px solid rgba(220,215,186,.14);
+          background: rgba(14,16,24,.45);
+        ">
+                    <img src="../assets/grover_circuit.png" alt="Grover circuit diagram" loading="lazy"
+                        style="display:block; width:100%; height:auto;" />
+                </div>
+
+                <div class="actions" style="margin-top: 12px;">
+                    <a class="btn" href="/assets/grover_circuit.png" target="_blank" rel="noreferrer">
+                        <i class="fa-regular fa-image"></i> Open image
+                    </a>
+                </div>
+            </article>
+
+            <!-- Output / explanation -->
+            <!-- <article class="card span-12" id="panel">
+                <h2>Output</h2>
+                <p id="output" class="muted" style="white-space: pre-wrap; margin: 0;">
+                    $ ./title_flicker --help
+                    Type text → Flicker.
+                </p>
+            </article> -->
+        </div>
+    </main>
+
+    <script>
+        (function () {
+            const output = document.getElementById("output");
+            const runBtn = document.getElementById("runBtn");
+            const copyBtn = document.getElementById("copyBtn");
+            const demoTitle = document.getElementById("demoTitle");
+            const flickerTitleBtn = document.getElementById("flickerTitleBtn");
+            const userText = document.getElementById("userText");
+
+            const explainText = [
+                "$ ./title_flicker --explain",
+                "",
+                "The homepage title flickers by sampling ASCII characters.",
+                "A 'highProb' schedule controls how likely each character is correct over time.",
+                "That schedule comes from a Qiskit Aer statevector simulation of Grover's algorithm.",
+                "",
+                "Idea: noise → amplified probability → correct output."
+            ].join("\n");
+
+            function setOutput(text) {
+                if (!output) return;
+                output.textContent = text;
+            }
+
+            let isAnimating = false;
+
+            async function show_flicker(word) {
+                if (isAnimating) return;
+                isAnimating = true;
+
+                if (demoTitle) demoTitle.textContent = "";
+
+                // this page is /special/, so probs.json is one directory up
+                let maxProbs;
+                try {
+                    const response = await fetch("../assets/probs.json");
+                    maxProbs = await response.json();
+                } catch (e) {
+                    setOutput(explainText + "\n\n$ error: couldn't load ../assets/probs.json");
+                    isAnimating = false;
+                    return;
                 }
 
-                if (revealBtn) {
-                    revealBtn.addEventListener("click", () => setOutput(message));
+                const asciiChars = Array.from({ length: 128 }, (_, i) => String.fromCharCode(i));
+                let iteration = 0;
+                const maxIter = Math.min(12, maxProbs.length - 1);
+
+                function probs(iteration, targetIndex) {
+                    const highProb = maxProbs[iteration] ?? maxProbs[maxIter];
+                    const lowProb = (1 - highProb) / (asciiChars.length - 1);
+                    return asciiChars.map((_, i) => (i === targetIndex ? highProb : lowProb));
                 }
 
-                if (copyBtn) {
-                    copyBtn.addEventListener("click", async () => {
-                        try {
-                            await navigator.clipboard.writeText(message);
-                            setOutput(message + "\n\n$ copied ✓");
-                        } catch {
-                            setOutput(message + "\n\n$ copy failed (browser permissions)");
-                        }
-                    });
+                function weightedRandom(ps) {
+                    const r = Math.random();
+                    let acc = 0;
+                    for (let i = 0; i < ps.length; i++) {
+                        acc += ps[i];
+                        if (r <= acc) return asciiChars[i];
+                    }
+                    return asciiChars[asciiChars.length - 1];
                 }
-            })();
-        </script>
-    </body>
+
+                const iterTimer = setInterval(() => {
+                    iteration++;
+                    if (iteration > maxIter) clearInterval(iterTimer);
+                }, 250);
+
+                const outputTimer = setInterval(() => {
+                    if (iteration > maxIter) {
+                        if (demoTitle) demoTitle.textContent = word;
+                        isAnimating = false;
+                        clearInterval(outputTimer);
+                        return;
+                    }
+
+                    if (!demoTitle) return;
+
+                    demoTitle.textContent = [...word]
+                        .map((_, index) => weightedRandom(probs(iteration, word.charCodeAt(index))))
+                        .join("");
+                }, 20);
+            }
+
+            function run() {
+                const txt = (userText?.value ?? "nok hang lo").trim();
+                const safe = txt.length ? txt.slice(0, 32) : "nok hang lo";
+                setOutput(explainText + "\n\n$ flickering: " + JSON.stringify(safe));
+                show_flicker(safe);
+            }
+
+            if (runBtn) runBtn.addEventListener("click", run);
+            if (flickerTitleBtn) flickerTitleBtn.addEventListener("click", run);
+
+            if (userText) {
+                userText.addEventListener("keydown", (e) => {
+                    if (e.key === "Enter") run();
+                });
+            }
+
+            setOutput(explainText);
+        })();
+    </script>
+</body>
+
 </html>
-
-
